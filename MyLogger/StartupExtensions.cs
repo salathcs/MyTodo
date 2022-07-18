@@ -12,7 +12,7 @@ namespace MyLogger
         /// Requires appsettings.json with Serilog entry!
         /// </summary>
         /// <returns>Fluent pattern</returns>
-        public static IServiceCollection AddMyAuthClient(this IServiceCollection services)
+        public static IServiceCollection AddMyLogger(this IServiceCollection services)
         {
             var configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
