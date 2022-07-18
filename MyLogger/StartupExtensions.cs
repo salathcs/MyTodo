@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MyLogger.Interfaces;
 using Serilog;
 
 namespace MyLogger
@@ -22,6 +23,8 @@ namespace MyLogger
             Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
                 .CreateLogger();
+
+            services.AddSingleton<IMyLogger, MyLogger>();
 
             return services;
         }
