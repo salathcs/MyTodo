@@ -1,3 +1,4 @@
+using MyAuth.Repo;
 using MyAuth_lib;
 using MyLogger;
 using Serilog;
@@ -11,7 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMyAuthServer();
+builder.Services.AddMyAuthServer<IdentityRepository>();
 
 builder.Host.UseSerilog();
 

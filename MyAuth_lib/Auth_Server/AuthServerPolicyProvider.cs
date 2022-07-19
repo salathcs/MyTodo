@@ -6,7 +6,7 @@ using static MyAuth_lib.Constants.AuthConstants;
 
 namespace MyAuth_lib.Auth_Server
 {
-    public class AuthServerPolicyProvider
+    public class AuthServerPolicyProvider : IAuthorizationPolicyProvider
     {
         private DefaultAuthorizationPolicyProvider BackupPolicyProvider { get; }
         private AuthorizationOptions Options { get; }

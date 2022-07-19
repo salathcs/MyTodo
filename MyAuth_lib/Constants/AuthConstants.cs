@@ -9,6 +9,11 @@
 
         internal static string AUDIENCE = "MyTodoJWTServiceClient";
         internal static string ISSUER = "MyTodoJWTServiceServer";
+        internal static string TOKEN_SUBJECT = "MyTodoJWTServiceToken";
+
+        internal static string CLIENT_AUTHENTICATION_SCHEMA = "DefaultAuth";
+
+        internal static int TOKEN_EXPIRATION = 30;
 
         //Authorization
         public static string VALIDATION_POLICY = "MyTodoRequestValidation";
