@@ -2,7 +2,7 @@
 using MyAuth_lib.Auth_Server.Models;
 using MyAuth_lib.Interfaces;
 
-namespace MyAuth.Repo
+namespace MyAuth.Repositories
 {
     public class IdentityRepository : IIdentityRepository
     {

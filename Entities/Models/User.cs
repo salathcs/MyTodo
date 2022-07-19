@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Entities.Base;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Entities.Models
 {
-    public class User
+    public class User : ExtendedEntity
     {
+        [MaxLength(32)]
+        public string Name { get; set; }
+
+        [MaxLength(32)]
+        public string Email { get; set; }
+
+
+        [ForeignKey(nameof(Identity))]
+        public long IdentityId { get; set; }
+        public Identity UserIdentity { get; set; }
     }
 }
