@@ -5,6 +5,6 @@ namespace MyAuth_lib.Interfaces
 {
     public interface IIdentityRepository
     {
-        User TryGetUser(AuthRequest authRequest);
+        User? TryGetUser(AuthRequest authRequest);
     }
 }

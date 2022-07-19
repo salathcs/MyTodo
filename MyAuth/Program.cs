@@ -1,3 +1,4 @@
+using Entities;
 using MyAuth.Repositories;
 using MyAuth_lib;
 using MyLogger;
@@ -13,6 +14,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMyAuthServer<IdentityRepository>();
+builder.Services.AddMyTodoContext(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 builder.Host.UseSerilog();
 

@@ -5,6 +5,10 @@ namespace Entities
 {
     public class MyTodoContext : DbContext
     {
+        public MyTodoContext(DbContextOptions<MyTodoContext> options) : base(options)
+        {
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<Identity> Identites { get; set; }
 

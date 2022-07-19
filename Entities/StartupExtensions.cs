@@ -10,6 +10,7 @@ namespace Entities
             services.AddDbContext<MyTodoContext>(options =>
             {
                 options.UseSqlServer(connectionString);
+                options.UseLazyLoadingProxies();
             });
 
             return services;

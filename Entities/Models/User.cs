@@ -15,6 +15,6 @@ namespace Entities.Models
 
         [ForeignKey(nameof(Identity))]
         public long IdentityId { get; set; }
-        public Identity UserIdentity { get; set; }
+        public virtual Identity UserIdentity { get; set; }
     }
 }
