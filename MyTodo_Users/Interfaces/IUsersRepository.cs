@@ -1,4 +1,5 @@
-﻿using Entities.Models;
+﻿using DataTransfer.DataTransferObjects;
+using Entities.Models;
 
 namespace MyTodo_Users.Interfaces
 {
@@ -6,8 +7,9 @@ namespace MyTodo_Users.Interfaces
     {
         void Create(User user);
         void Delete(long id);
-        IEnumerable<User> GetAll();
-        User? GetById(long id);
+        IEnumerable<UserDto> GetAll();
+        UserDto? GetById(long id);
+        User? GetEntityById(long id);
         void Update(User user);
     }
 }

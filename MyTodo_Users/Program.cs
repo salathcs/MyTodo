@@ -1,3 +1,4 @@
+using DataTransfer;
 using Entities;
 using MyAuth_lib;
 using MyAuth_lib.Auth_Client;
@@ -5,6 +6,7 @@ using MyLogger;
 using MyTodo_Users.Interfaces;
 using MyTodo_Users.Repositories;
 using MyTodo_Users.Services;
+using MyUtilities;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,6 +24,10 @@ builder.Services.AddMyTodoContext(builder.Configuration.GetConnectionString("Def
 builder.Host.UseSerilog();
 
 builder.Services.AddMyLogger();
+
+builder.Services.AddMyAutoMapper();
+
+builder.Services.AddMyUtilities();
 
 // Api logic DI
 builder.Services.AddScoped<IUsersService, UsersService>();

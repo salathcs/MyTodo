@@ -1,4 +1,4 @@
-﻿using Entities.Models;
+﻿using DataTransfer.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyTodo_Users.Interfaces;
@@ -19,41 +19,37 @@ namespace MyTodo_Users.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
-        public IEnumerable<User> Get()
+        public IEnumerable<UserDto> Get()
         {
             return usersService.GetAll();
         }
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public IActionResult Get(long id)
+        public UserDto Get(long id)
         {
-            var user = usersService.GetById(id);
-
-            if (user is null)
-            {
-                return Ok("Not found!"); //TODO
-            }
-
-            return Ok(user);
+            return usersService.GetById(id);
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] UserDto userDto)
         {
+            usersService.Create(userDto);
         }
 
         // PUT api/<UsersController>/5
-        [HttpPut("{id}")]
-        public void Put(long id, [FromBody] string value)
+        [HttpPut]
+        public void Put([FromBody] UserDto userDto)
         {
+            usersService.Update(userDto);
         }
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
         public void Delete(long id)
         {
+            usersService.Delete(id);
         }
     }
 }

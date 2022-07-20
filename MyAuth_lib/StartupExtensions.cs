@@ -30,6 +30,7 @@ namespace MyAuth_lib
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
                 ValidateAudience = true,
+                ValidateLifetime = true,
                 ValidAudience = AUDIENCE,
                 ValidIssuer = ISSUER,
             };
