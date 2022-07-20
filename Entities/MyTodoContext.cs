@@ -1,13 +1,15 @@
 ﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using static Entities.Constants.PermissionNames;
 
 namespace Entities
 {
     public class MyTodoContext : DbContext
     {
+        public MyTodoContext()
+        { }
         public MyTodoContext(DbContextOptions<MyTodoContext> options) : base(options)
-        {
-        }
+        { }
 
         public DbSet<Identity> Identites { get; set; }
         public DbSet<User> Users { get; set; }
@@ -56,10 +58,12 @@ namespace Entities
             modelBuilder.Entity<User>().HasData(admin);
 
             //Permission config
+            modelBuilder.Entity<Permission>().HasIndex(x => x.PermissionName).IsUnique();
+
             var adminPermission = new Permission
             {
                 Id = 1,
-                PermissionName = "AdminPermission",
+                PermissionName = ADMIN_PERMISSION,
                 Created = DateTime.UtcNow,
                 Updated = DateTime.UtcNow,
                 CreatedBy = "System",

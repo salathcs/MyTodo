@@ -13,10 +13,12 @@ namespace MyAuth_lib.Auth_Server
     public class AuthService : IAuthService
     {
         protected readonly IIdentityRepository identityRepository;
+        protected readonly IAuthServerSupplier supplier;
 
-        public AuthService(IIdentityRepository identityRepository)
+        public AuthService(IIdentityRepository identityRepository, IAuthServerSupplier supplier)
         {
             this.identityRepository = identityRepository;
+            this.supplier = supplier;
         }
 
         public AuthResult Authenticate(AuthRequest authRequest)
@@ -69,7 +71,7 @@ namespace MyAuth_lib.Auth_Server
 
         protected virtual DateTime CreateExpiration()
         {
-            return DateTime.UtcNow.AddMinutes(TOKEN_EXPIRATION);
+            return DateTime.UtcNow.AddMinutes(supplier.GetTokenExpiration());
         }
 
         protected virtual AuthResult CreateAuthResult(User user, string token, DateTime expiration)

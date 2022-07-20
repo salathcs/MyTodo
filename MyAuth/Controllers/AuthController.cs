@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MyAuth_lib.Auth_Server.Models;
 using MyAuth_lib.Interfaces;
 using MyLogger.Interfaces;
+using static MyAuth_lib.Constants.AuthConstants;
 
 namespace MyAuth.Controllers
 {
@@ -27,6 +29,13 @@ namespace MyAuth.Controllers
             var result = authService.Authenticate(authRequest);
 
             return Ok(result);
+        }
+
+        [Authorize(policy: VALIDATION_POLICY)]
+        [HttpGet("Validate")]
+        public IActionResult Validate()
+        {
+            return Ok();
         }
     }
 }
