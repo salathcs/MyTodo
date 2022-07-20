@@ -3,6 +3,9 @@ using Entities;
 using MyAuth_lib;
 using MyAuth_lib.Auth_Client;
 using MyLogger;
+using MyTodo_Todos.Interfaces;
+using MyTodo_Todos.Repositories;
+using MyTodo_Todos.Services;
 using MyUtilities;
 using Serilog;
 
@@ -25,6 +28,10 @@ builder.Services.AddMyLogger();
 builder.Services.AddMyAutoMapper();
 
 builder.Services.AddMyUtilities();
+
+// Api logic DI
+builder.Services.AddScoped<ITodosService, TodosService>();
+builder.Services.AddScoped<ITodosRepository, TodosRepository>();
 
 var app = builder.Build();
 

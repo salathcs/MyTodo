@@ -64,9 +64,12 @@ namespace MyAuth_lib.Auth_Server
             yield return new Claim(JwtRegisteredClaimNames.Sub, TOKEN_SUBJECT);
             yield return new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString());
             yield return new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString());
-            yield return new Claim(ClaimTypes.Name, "TODO");
-            
-            //TODO permissions
+            yield return new Claim(ClaimTypes.Name, user.UserIdentity.UserName);
+
+            foreach (var permission in user.UserPermissions.Select(x => x.UserPermission_Permission))
+            {
+                yield return new Claim(permission.PermissionName, string.Empty);
+            }
         }
 
         protected virtual DateTime CreateExpiration()

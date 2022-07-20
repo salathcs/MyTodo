@@ -1,5 +1,4 @@
 ﻿using DataTransfer.DataTransferObjects;
-using Entities.Models;
 
 namespace MyTodo_Users.Interfaces
 {
