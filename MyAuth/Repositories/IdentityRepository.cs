@@ -19,9 +19,25 @@ namespace MyAuth.Repositories
 
         public User? TryGetUser(AuthRequest authRequest)
         {
-            return context.Identites.Where(x => x.UserName.Equals(authRequest.UserName) && x.Password.Equals(authRequest.Password))
-                .FirstOrDefault()               //only one username password pair should exists
-                ?.Users?.FirstOrDefault();      //only one User should have this Identity
+            //only one identity should exist with the specified username
+            var identity = context.Identites.FirstOrDefault(x => x.UserName.Equals(authRequest.UserName));
+
+            if (identity is null)
+            {
+                logger.Info($"Identity not found for username: {authRequest.UserName}!");
+                return null;
+            }
+
+            logger.Debug($"Identity found for username: {authRequest.UserName}!");
+
+            if (!identity.Password.Equals(authRequest.Password))
+            {
+                logger.Info("Password check failed!");
+                return null;
+            }
+
+            logger.Debug("Identity passed password check, User will returned!");
+            return identity.IdentityUser;
         }
     }
 }
