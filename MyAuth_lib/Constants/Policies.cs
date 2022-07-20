@@ -2,7 +2,6 @@
 {
     public static class Policies
     {
-        public const string GENERAL = "General";
-        public const string ADMIN = "Admin";
+        public const string ADMIN_POLICY = "Admin";
     }
 }

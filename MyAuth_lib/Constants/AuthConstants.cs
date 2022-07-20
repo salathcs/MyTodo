@@ -3,25 +3,21 @@
     public static class AuthConstants
     {
         //Authentication
-        internal static string ENCRYPTION_KEY = "Yq3t6w9z$C&F)J@NcRfTjWnZr4u7x!A%D*G-KaPdSgVkYp2s5v8y/B?E(H+MbQeT";
+        internal const string ENCRYPTION_KEY = "Yq3t6w9z$C&F)J@NcRfTjWnZr4u7x!A%D*G-KaPdSgVkYp2s5v8y/B?E(H+MbQeT";
 
-        internal static string AUTH_COOKIE = "MyTodoToken";
+        internal const string AUTH_COOKIE = "MyTodoToken";
 
-        internal static string AUDIENCE = "MyTodoJWTServiceClient";
-        internal static string ISSUER = "MyTodoJWTServiceServer";
-        internal static string TOKEN_SUBJECT = "MyTodoJWTServiceToken";
+        internal const string AUDIENCE = "MyTodoJWTServiceClient";
+        internal const string ISSUER = "MyTodoJWTServiceServer";
+        internal const string TOKEN_SUBJECT = "MyTodoJWTServiceToken";
 
-        internal static string CLIENT_AUTHENTICATION_SCHEMA = "DefaultAuth";
-
-        internal static int TOKEN_EXPIRATION = 30;
+        internal const string CLIENT_AUTHENTICATION_SCHEMA = "DefaultAuth";
 
         //Authorization
-        public static string VALIDATION_POLICY = "MyTodoRequestValidation";
+        public const string VALIDATION_POLICY = "MyTodoRequestValidation";
 
-        public static string QUERY_POLICY = "policy";
+        public const string QUERY_POLICY = "policy";
 
-        public static string WITHOUT_POLICY = "none";
-
-        internal static int CLIENT_TOKEN_VALIDATION_CACHE_EXPIRATION = 5;
+        public const string WITHOUT_POLICY = "none";
     }
 }

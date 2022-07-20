@@ -13,10 +13,12 @@ namespace MyAuth_lib.Auth_Server
     public class AuthService : IAuthService
     {
         protected readonly IIdentityRepository identityRepository;
+        protected readonly IAuthServerSupplier supplier;
 
-        public AuthService(IIdentityRepository identityRepository)
+        public AuthService(IIdentityRepository identityRepository, IAuthServerSupplier supplier)
         {
             this.identityRepository = identityRepository;
+            this.supplier = supplier;
         }
 
         public AuthResult Authenticate(AuthRequest authRequest)
@@ -62,14 +64,17 @@ namespace MyAuth_lib.Auth_Server
             yield return new Claim(JwtRegisteredClaimNames.Sub, TOKEN_SUBJECT);
             yield return new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString());
             yield return new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString());
-            yield return new Claim(ClaimTypes.Name, "TODO");
-            
-            //TODO permissions
+            yield return new Claim(ClaimTypes.Name, user.UserIdentity.UserName);
+
+            foreach (var permission in user.UserPermissions.Select(x => x.UserPermission_Permission))
+            {
+                yield return new Claim(permission.PermissionName, string.Empty);
+            }
         }
 
         protected virtual DateTime CreateExpiration()
         {
-            return DateTime.UtcNow.AddMinutes(TOKEN_EXPIRATION);
+            return DateTime.UtcNow.AddMinutes(supplier.GetTokenExpiration());
         }
 
         protected virtual AuthResult CreateAuthResult(User user, string token, DateTime expiration)

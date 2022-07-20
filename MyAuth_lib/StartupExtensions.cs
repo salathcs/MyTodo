@@ -11,13 +11,16 @@ using MyAuth_lib.MyAuthPolicies.Requirements;
 using System.Text;
 using static MyAuth_lib.Constants.AuthConstants;
 using static MyAuth_lib.Constants.Policies;
+using static Entities.Constants.PermissionNames;
+using Microsoft.OpenApi.Models;
 
 namespace MyAuth_lib
 {
     public static class StartupExtensions
     {
-        public static IServiceCollection AddMyAuthServer<IdentityRepo>(this IServiceCollection services)
+        public static IServiceCollection AddMyAuthServer<IdentityRepo, Supplier>(this IServiceCollection services)
             where IdentityRepo : IIdentityRepository
+            where Supplier : IAuthServerSupplier
         {
             var key = Encoding.UTF8.GetBytes(ENCRYPTION_KEY);
 
@@ -27,6 +30,7 @@ namespace MyAuth_lib
                 IssuerSigningKey = new SymmetricSecurityKey(key),
                 ValidateIssuer = true,
                 ValidateAudience = true,
+                ValidateLifetime = true,
                 ValidAudience = AUDIENCE,
                 ValidIssuer = ISSUER,
             };
@@ -58,19 +62,18 @@ namespace MyAuth_lib
             //DI
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped(typeof(IIdentityRepository), typeof(IdentityRepo));
+            services.AddScoped(typeof(IAuthServerSupplier), typeof(Supplier));
 
             //policy provider
             services.AddSingleton<IAuthorizationPolicyProvider, AuthServerPolicyProvider>();
 
             //reqHandlers
-            services.AddScoped<IAuthorizationHandler, GeneralReqHandler>();
-            services.AddScoped<IAuthorizationHandler, AdminReqHandler>();
+            services.AddScoped<IAuthorizationHandler, PermissionReqHandler>();
 
             //policies
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(GENERAL, builder => builder.AddRequirements(new GeneralReq()));
-                options.AddPolicy(ADMIN, builder => builder.AddRequirements(new AdminReq()));
+                options.AddPolicy(ADMIN_POLICY, builder => builder.AddRequirements(new PermissionReq(ADMIN_PERMISSION)));
             });
 
             services.AddHttpContextAccessor();
@@ -78,7 +81,8 @@ namespace MyAuth_lib
             return services;
         }
 
-        public static IServiceCollection AddMyAuthClient(this IServiceCollection services)
+        public static IServiceCollection AddMyAuthClient<Supplier>(this IServiceCollection services)
+            where Supplier : IAuthClientSupplier
         {
             services.AddAuthentication(CLIENT_AUTHENTICATION_SCHEMA)
                 .AddScheme<AuthenticationSchemeOptions, FailingAuthenticationHandler>(CLIENT_AUTHENTICATION_SCHEMA, null);
@@ -89,13 +93,47 @@ namespace MyAuth_lib
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy(GENERAL, builder => builder.AddRequirements(new ClientJwtAuthReq(GENERAL)));
-                options.AddPolicy(ADMIN, builder => builder.AddRequirements(new ClientJwtAuthReq(ADMIN)));
+                options.AddPolicy(ADMIN_POLICY, builder => builder.AddRequirements(new ClientJwtAuthReq(ADMIN_POLICY)));
             });
 
             services.AddHttpClient()
                 .AddHttpContextAccessor()
                 .AddMemoryCache();
+
+            services.AddScoped(typeof(IAuthClientSupplier), typeof(Supplier));
+
+            return services;
+        }
+
+        public static IServiceCollection AddSwaggerGenWithJwtAuth(this IServiceCollection services, string swaggerTitle, string version = "v1")
+        {
+            services.AddSwaggerGen(option =>
+            {
+                option.SwaggerDoc(version, new OpenApiInfo { Title = swaggerTitle, Version = version });
+                option.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please enter a valid token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    BearerFormat = "JWT",
+                    Scheme = "Bearer"
+                });
+                option.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type=ReferenceType.SecurityScheme,
+                                Id="Bearer"
+                            }
+                        },
+                        new string[]{}
+                    }
+                });
+            });
 
             return services;
         }

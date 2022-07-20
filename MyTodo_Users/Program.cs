@@ -1,3 +1,14 @@
+using DataTransfer;
+using Entities;
+using MyAuth_lib;
+using MyAuth_lib.Auth_Client;
+using MyLogger;
+using MyTodo_Users.Interfaces;
+using MyTodo_Users.Repositories;
+using MyTodo_Users.Services;
+using MyUtilities;
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,7 +16,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGenWithJwtAuth("MyTodo Users Api");
+
+builder.Services.AddMyAuthClient<DefaultAuthClientSupplier>();
+builder.Services.AddMyTodoContext(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+builder.Host.UseSerilog();
+
+builder.Services.AddMyLogger();
+
+builder.Services.AddMyAutoMapper();
+
+builder.Services.AddMyUtilities();
+
+// Api logic DI
+builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IUsersRepository, UsersRepository>();
 
 var app = builder.Build();
 
@@ -16,8 +42,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseSerilogRequestLogging();
+
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
