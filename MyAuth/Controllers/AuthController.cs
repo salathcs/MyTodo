@@ -31,7 +31,7 @@ namespace MyAuth.Controllers
             return Ok(result);
         }
 
-        [Authorize(policy: VALIDATION_POLICY)]
+        [Authorize(VALIDATION_POLICY)]
         [HttpGet("Validate")]
         public IActionResult Validate()
         {

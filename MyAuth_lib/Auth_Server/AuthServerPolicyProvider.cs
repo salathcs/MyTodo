@@ -36,6 +36,7 @@ namespace MyAuth_lib.Auth_Server
             {
                 var policy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme);
                 policy.AddRequirements(new AuthServerPolicyReq(Options));
+                policy.RequireAuthenticatedUser();
                 return Task.FromResult(policy.Build());
             }
             else
