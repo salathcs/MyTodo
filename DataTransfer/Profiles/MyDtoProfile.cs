@@ -15,7 +15,8 @@ namespace DataTransfer.Profiles
                 .ForPath(entity => entity.UserIdentity.Password, opt => opt.MapFrom(dto => dto.Password));
 
             CreateMap<Todo, TodoDto>()
-                .ReverseMap();
+                .ReverseMap()
+                .ForPath(entity => entity.UserId, opt => opt.Ignore());
         }
     }
 }

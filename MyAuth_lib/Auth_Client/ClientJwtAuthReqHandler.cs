@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using DataTransfer.DataTransferObjects;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Caching.Memory;
 using MyAuth_lib.Interfaces;
+using System.Security.Claims;
+using System.Text.Json;
 using System.Web;
 using static MyAuth_lib.Constants.AuthConstants;
 
@@ -42,9 +45,14 @@ namespace MyAuth_lib.Auth_Client
             if (TryGetToken(out var token))
             {
                 //If cache key exists, req is succeeded
-                if (cache.TryGetValue(CreateCacheKey(token, requirement.Policy), out var _))
+                if (cache.TryGetValue(CreateCacheKey(token, requirement.Policy), out var cacheValue))
                 {
                     context.Succeed(requirement);
+
+                    if (cacheValue is IEnumerable<ClaimDto> cachedClaims)
+                    {
+                        httpContext.User.AddIdentity(CreateIdentity(cachedClaims as IEnumerable<ClaimDto>));
+                    }
 
                     return;
                 }
@@ -56,10 +64,20 @@ namespace MyAuth_lib.Auth_Client
 
                 if (response.StatusCode == System.Net.HttpStatusCode.OK)
                 {
-                    context.Succeed(requirement);
+                    var claims = await GetClaims(response);
 
-                    //set cache
-                    cache.Set(CreateCacheKey(token, requirement.Policy), string.Empty, DateTimeOffset.UtcNow.AddMinutes(supplier.GetCacheExpiration()));
+                    if (claims != null)
+                    {
+                        context.Succeed(requirement);
+
+                        httpContext.User.AddIdentity(CreateIdentity(claims));
+
+                        //set cache
+                        cache.Set(
+                            CreateCacheKey(token, requirement.Policy), 
+                            claims, 
+                            DateTimeOffset.UtcNow.AddMinutes(supplier.GetCacheExpiration()));
+                    }
                 }
             }
         }
@@ -100,5 +118,23 @@ namespace MyAuth_lib.Auth_Client
                 accessToken,
                 policy
             };
+        private async Task<IEnumerable<ClaimDto>?> GetClaims(HttpResponseMessage response)
+        {
+            try
+            {
+                var jsonString = await response.Content.ReadAsStringAsync();
+
+                return JsonSerializer.Deserialize<IEnumerable<ClaimDto>>(jsonString);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private ClaimsIdentity CreateIdentity(IEnumerable<ClaimDto> claimDtos)
+        {
+            return new ClaimsIdentity(claimDtos.Select(x => new Claim(x.Type ?? string.Empty, x.Value ?? string.Empty)));
+        }
     }
 }

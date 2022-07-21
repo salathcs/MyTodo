@@ -11,5 +11,11 @@ namespace DataTransfer
 
             return services;
         }
+        public static IServiceCollection AddMyAuthAutoMapper(this IServiceCollection services)
+        {
+            services.AddAutoMapper(typeof(AuthProfile));
+
+            return services;
+        }
     }
 }

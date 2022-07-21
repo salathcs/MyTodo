@@ -1,6 +1,7 @@
 ﻿using Entities.Base;
 using Microsoft.AspNetCore.Http;
 using MyUtilities.Interfaces;
+using System.Security.Claims;
 
 namespace MyUtilities.Helpers
 {
@@ -17,13 +18,13 @@ namespace MyUtilities.Helpers
         {
             if (entity is ExtendedEntity extendedEntity)
             {
-                var context = contextAccessor.HttpContext;
-                if (context is null)
+                var identity = GetIdentity();
+                if (identity is null)
                 {
                     return;
                 }
 
-                var userName = context.User.Identity?.Name ?? "Unknown";
+                var userName = identity.Name ?? "Unknown";
 
                 //Create
                 if (string.IsNullOrWhiteSpace(extendedEntity.CreatedBy))
@@ -36,6 +37,17 @@ namespace MyUtilities.Helpers
                 extendedEntity.Updated = DateTime.UtcNow;
                 extendedEntity.UpdatedBy = userName;
             }
+        }
+
+        private ClaimsIdentity? GetIdentity()
+        {
+            var context = contextAccessor.HttpContext;
+            if (context is null)
+            {
+                return null;
+            }
+
+            return context.User.Identities.FirstOrDefault(x => !string.IsNullOrWhiteSpace(x.Name ?? ""));
         }
     }
 }

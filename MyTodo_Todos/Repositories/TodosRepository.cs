@@ -45,17 +45,19 @@ namespace MyTodo_Todos.Repositories
             context.SaveChanges();
         }
 
-        public void Delete(long id)
+        public Todo? Delete(long id)
         {
             var todo = context.Todos.FirstOrDefault(x => x.Id == id);
 
             if (todo is null)
             {
-                return;
+                return null;
             }
 
-            context.Todos.Remove(todo);
+            var removedEntry = context.Todos.Remove(todo);
             context.SaveChanges();
+
+            return removedEntry.Entity;
         }
     }
 }

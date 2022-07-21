@@ -45,17 +45,21 @@ namespace MyTodo_Users.Repositories
             context.SaveChanges();
         }
 
-        public void Delete(long id)
+        public User? Delete(long id)
         {
             var user = context.Users.FirstOrDefault(x => x.Id == id);
 
             if (user is null)
             {
-                return;
+                return null;
             }
 
-            context.Users.Remove(user);
+            var removedEntry = context.Users.Remove(user);
+            context.Identites.Remove(user.UserIdentity);        //Also needs to be removed
             context.SaveChanges();
+
+            return removedEntry.Entity;
+
         }
     }
 }

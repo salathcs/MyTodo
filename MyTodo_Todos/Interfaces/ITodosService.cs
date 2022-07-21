@@ -4,10 +4,10 @@ namespace MyTodo_Todos.Interfaces
 {
     public interface ITodosService
     {
-        void Create(TodoDto todoDto);
-        void Delete(long id);
         IEnumerable<TodoDto> GetAll();
-        TodoDto GetById(long id);
-        void Update(TodoDto todoDto);
+        TodoDto? GetById(long id);
+        void Create(TodoDto todoDto);
+        bool Update(TodoDto todoDto);
+        bool Delete(long id);
     }
 }

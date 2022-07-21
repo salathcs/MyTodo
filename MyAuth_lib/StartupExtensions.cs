@@ -10,7 +10,7 @@ using MyAuth_lib.MyAuthPolicies.RequirementHandlers;
 using MyAuth_lib.MyAuthPolicies.Requirements;
 using System.Text;
 using static MyAuth_lib.Constants.AuthConstants;
-using static MyAuth_lib.Constants.Policies;
+using static MyAuth_lib.Constants.PolicyConstants;
 using static Entities.Constants.PermissionNames;
 using Microsoft.OpenApi.Models;
 
