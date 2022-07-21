@@ -47,7 +47,7 @@ namespace MyTodo_Users.Controllers
         {
             usersService.Create(userDto);
 
-            return CreatedAtAction(nameof(Post), new { id = userDto.Id }, userDto);
+            return CreatedAtAction(nameof(Get), new { id = userDto.Id }, userDto);
         }
 
         // PUT api/<UsersController>/5

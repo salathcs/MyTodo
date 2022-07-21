@@ -48,7 +48,7 @@ namespace MyTodo_Todos.Controllers
         {
             todosService.Create(todoDto);
 
-            return CreatedAtAction(nameof(Post), new { id = todoDto.Id }, todoDto);
+            return CreatedAtAction(nameof(Get), new { id = todoDto.Id }, todoDto);
         }
 
         // PUT api/<TodosController>/5
