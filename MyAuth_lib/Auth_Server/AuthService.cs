@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using static MyAuth_lib.Constants.AuthConstants;
+using static MyAuth_lib.Constants.ClaimConstants;
 
 namespace MyAuth_lib.Auth_Server
 {
@@ -65,6 +66,7 @@ namespace MyAuth_lib.Auth_Server
             yield return new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString());
             yield return new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString());
             yield return new Claim(ClaimTypes.Name, user.UserIdentity.UserName);
+            yield return new Claim(IDENTIFIER, user.Id.ToString());
 
             foreach (var permission in user.UserPermissions.Select(x => x.UserPermission_Permission))
             {

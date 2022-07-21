@@ -2,7 +2,6 @@
 using DataTransfer.DataTransferObjects;
 using Entities.Models;
 using MyTodo_Todos.Interfaces;
-using MyUtilities.Exceptions;
 using MyUtilities.Interfaces;
 
 namespace MyTodo_Todos.Services
@@ -25,42 +24,42 @@ namespace MyTodo_Todos.Services
             return todosRepository.GetAll();
         }
 
-        public TodoDto GetById(long id)
+        public TodoDto? GetById(long id)
         {
-            var todoDto = todosRepository.GetById(id);
-
-            if (todoDto is null)
-            {
-                throw new EntityNotFoundException($"Todo not found by id: {id}!");
-            }
-
-            return todoDto;
+            return todosRepository.GetById(id);
         }
 
         public void Create(TodoDto todoDto)
         {
             var todo = mapper.Map<Todo>(todoDto);
             entityLoader.TryFillExtendedEntityFields(todo);
+            todo.UserId = todoDto.UserId;  //UserId is ignored in mapper, but in create its required
             todosRepository.Create(todo);
+
+            todoDto.Id = todo.Id;       //result
         }
 
-        public void Update(TodoDto todoDto)
+        public bool Update(TodoDto todoDto)
         {
             var todo = todosRepository.GetEntityById(todoDto.Id);
 
             if (todo is null)
             {
-                throw new EntityNotFoundException($"Todo not found by id: {todoDto.Id}!");
+                return false;
             }
 
             mapper.Map(todoDto, todo);
             entityLoader.TryFillExtendedEntityFields(todo);
             todosRepository.Update(todo);
+
+            return true;
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
-            todosRepository.Delete(id);
+            var removed = todosRepository.Delete(id);
+
+            return removed != null;
         }
     }
 }

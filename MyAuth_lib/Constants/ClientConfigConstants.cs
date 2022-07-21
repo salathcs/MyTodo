@@ -1,6 +1,6 @@
 ﻿namespace MyAuth_lib.Constants
 {
-    public static class AuthClientConstants
+    public static class ClientConfigConstants
     {
         public const string AUTH_SERVER_VALIDATION_URL = "AuthServerValidationUrl";
 

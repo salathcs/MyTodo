@@ -4,10 +4,10 @@ namespace MyTodo_Users.Interfaces
 {
     public interface IUsersService
     {
-        void Create(UserDto userDto);
-        void Delete(long id);
         IEnumerable<UserDto> GetAll();
-        UserDto GetById(long id);
-        void Update(UserDto userDto);
+        UserDto? GetById(long id);
+        void Create(UserDto userDto);
+        bool Update(UserDto userDto);
+        bool Delete(long id);
     }
 }

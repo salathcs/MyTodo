@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataTransfer\DataTransfer.csproj" />
     <ProjectReference Include="..\MyAuth_lib\MyAuth_lib.csproj" />
     <ProjectReference Include="..\MyLogger\MyLogger.csproj" />
   </ItemGroup>

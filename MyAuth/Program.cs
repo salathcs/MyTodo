@@ -1,3 +1,4 @@
+using DataTransfer;
 using Entities;
 using MyAuth.Repositories;
 using MyAuth_lib;
@@ -20,6 +21,8 @@ builder.Services.AddMyTodoContext(builder.Configuration.GetConnectionString("Def
 builder.Host.UseSerilog();
 
 builder.Services.AddMyLogger();
+
+builder.Services.AddMyAuthAutoMapper();
 
 var app = builder.Build();
 

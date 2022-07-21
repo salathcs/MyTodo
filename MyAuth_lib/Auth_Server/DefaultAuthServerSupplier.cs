@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MyAuth_lib.Interfaces;
-using static MyAuth_lib.Constants.AuthServerConstans;
+using static MyAuth_lib.Constants.ServerConfigConstans;
 
 namespace MyAuth_lib.Auth_Server
 {

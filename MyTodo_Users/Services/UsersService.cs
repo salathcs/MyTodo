@@ -2,7 +2,6 @@
 using DataTransfer.DataTransferObjects;
 using Entities.Models;
 using MyTodo_Users.Interfaces;
-using MyUtilities.Exceptions;
 using MyUtilities.Interfaces;
 
 namespace MyTodo_Users.Services
@@ -25,16 +24,9 @@ namespace MyTodo_Users.Services
             return usersRepository.GetAll();
         }
 
-        public UserDto GetById(long id)
+        public UserDto? GetById(long id)
         {
-            var userDto = usersRepository.GetById(id);
-
-            if (userDto is null)
-            {
-                throw new EntityNotFoundException($"User not found by id: {id}!");
-            }
-
-            return userDto;
+            return usersRepository.GetById(id);
         }
 
         public void Create(UserDto userDto)
@@ -42,25 +34,31 @@ namespace MyTodo_Users.Services
             var user = mapper.Map<User>(userDto);
             entityLoader.TryFillExtendedEntityFields(user);
             usersRepository.Create(user);
+
+            userDto.Id = user.Id;       //result
         }
 
-        public void Update(UserDto userDto)
+        public bool Update(UserDto userDto)
         {
             var user = usersRepository.GetEntityById(userDto.Id);
 
             if (user is null)
             {
-                throw new EntityNotFoundException($"User not found by id: {userDto.Id}!");
+                return false;
             }
 
             mapper.Map(userDto, user);
             entityLoader.TryFillExtendedEntityFields(user);
             usersRepository.Update(user);
+
+            return true;
         }
 
-        public void Delete(long id)
+        public bool Delete(long id)
         {
-            usersRepository.Delete(id);
+            var removed = usersRepository.Delete(id);
+
+            return removed != null;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace MyTodo_Users.Controllers
 
         // GET: api/<UsersController>
         [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoDto>))]
         public IEnumerable<UserDto> Get()
         {
             return usersService.GetAll();
@@ -26,30 +27,55 @@ namespace MyTodo_Users.Controllers
 
         // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        public UserDto Get(long id)
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TodoDto))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult Get(long id)
         {
-            return usersService.GetById(id);
+            var user = usersService.GetById(id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
         }
 
         // POST api/<UsersController>
         [HttpPost]
-        public void Post([FromBody] UserDto userDto)
+        public IActionResult Post([FromBody] UserDto userDto)
         {
             usersService.Create(userDto);
+
+            return CreatedAtAction(nameof(Post), new { id = userDto.Id }, userDto);
         }
 
         // PUT api/<UsersController>/5
         [HttpPut]
-        public void Put([FromBody] UserDto userDto)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult Put([FromBody] UserDto userDto)
         {
-            usersService.Update(userDto);
+            if (!usersService.Update(userDto))
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
 
         // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
-        public void Delete(long id)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult Delete(long id)
         {
-            usersService.Delete(id);
+            if (!usersService.Delete(id))
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
     }
 }
