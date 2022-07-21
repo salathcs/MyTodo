@@ -1,0 +1,44 @@
+<mat-card>
+  <mat-card-content>
+    <form #registrationForm="ngForm" (ngSubmit)="onSubmit()">
+      <h2>Registration</h2>
+      <mat-form-field>
+        <input matInput placeholder="Name" [(ngModel)]="name" name="name" required>
+        <mat-error>
+          Please provide a valid name
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="email" placeholder="Email" [(ngModel)]="email" name="email" required>
+        <mat-error>
+          Please provide a valid email
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput placeholder="Username" [(ngModel)]="username" name="username" required>
+        <mat-error>
+          Please provide a valid username
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" placeholder="Password" [(ngModel)]="password" name="password" required>
+        <mat-error>
+          Please provide a valid password
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput type="password" placeholder="Password confirmation" [(ngModel)]="passwordConfirmation" name="passwordConfirmation" required>
+        <mat-error>
+          Please provide a valid password
+        </mat-error>
+      </mat-form-field>
+      <mat-error *ngIf="passwordsDifferent">
+        The passwords aren't the same!
+      </mat-error>
+      <mat-error *ngIf="registrationFailed">
+        Registration call failed!
+      </mat-error>
+      <button mat-raised-button color="primary" [disabled]="!registrationForm.form.valid">Register</button>
+    </form>
+  </mat-card-content>
+</mat-card>

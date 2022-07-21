@@ -1,6 +1,8 @@
 using DataTransfer;
 using Entities;
+using MyAuth.Interfaces;
 using MyAuth.Repositories;
+using MyAuth.Services;
 using MyAuth_lib;
 using MyAuth_lib.Auth_Server;
 using MyLogger;
@@ -23,6 +25,10 @@ builder.Host.UseSerilog();
 builder.Services.AddMyLogger();
 
 builder.Services.AddMyAuthAutoMapper();
+
+//DI
+builder.Services.AddScoped<IRegistrationService, RegistrationService>();
+builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
 
 var app = builder.Build();
 
