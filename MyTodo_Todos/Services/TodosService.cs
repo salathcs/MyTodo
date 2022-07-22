@@ -2,6 +2,7 @@
 using DataTransfer.DataTransferObjects;
 using Entities.Models;
 using MyTodo_Todos.Interfaces;
+using MyUtilities.Exceptions;
 using MyUtilities.Interfaces;
 
 namespace MyTodo_Todos.Services
@@ -33,7 +34,8 @@ namespace MyTodo_Todos.Services
         {
             var todo = mapper.Map<Todo>(todoDto);
             entityLoader.TryFillExtendedEntityFields(todo);
-            todo.UserId = todoDto.UserId;  //UserId is ignored in mapper, but in create its required
+
+            todo.UserId = entityLoader.GetUserId();  //UserId from context
             todosRepository.Create(todo);
 
             todoDto.Id = todo.Id;       //result

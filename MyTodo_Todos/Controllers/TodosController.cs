@@ -18,6 +18,7 @@ namespace MyTodo_Todos.Controllers
         }
 
         // GET: api/<TodosController>
+        [Authorize("Admin")]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoDto>))]
         public IEnumerable<TodoDto> Get()

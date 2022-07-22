@@ -1,6 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -13,25 +12,19 @@ export class AppComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private http: HttpClient,
+    private router: Router,
     private cookieService: CookieService)
   { }
 
   ngOnInit() {
-    this.route.queryParams
-      .subscribe(params => {
-        console.log(params);
-        const token = params['token'];
-        this.cookieService.set('MyTodoToken', token);
-      }
-    );
+    
   }
 
-  public onSmthing(): void {
-    this.http.get<any>('/api/users/').subscribe(result => {
-      console.log("asd");
-    }, error => console.error(error));
+  public navigateToTodos(): void {
+    const userId = this.cookieService.get("userId");
+
+    this.router.navigate([`/todos/${userId}`]);
   }
 
-  title = 'MyTodo_UI';
+  title = 'My Todos app';
 }
