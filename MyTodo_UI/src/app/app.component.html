@@ -1,5 +1,13 @@
-<h1 id="tableLabel">My Todos app</h1>
+<mat-toolbar color="primary">
+  <span>
+    <button mat-button (click)="navigateToTodos()">{{title}}</button>
+  </span>
 
-<p>This component demonstrates fetching data from the server.</p>
+  <span class="toolbar-spacer"></span>
 
+  <button mat-icon-button (click)="navigateToTodos()"><mat-icon>listalt</mat-icon></button>
+  <button mat-icon-button routerLink="/users"><mat-icon>group</mat-icon></button>
+  <button mat-icon-button matTooltip="This component demonstrates fetching data from the server."><mat-icon>info</mat-icon></button>
+</mat-toolbar>
 
+<router-outlet></router-outlet>

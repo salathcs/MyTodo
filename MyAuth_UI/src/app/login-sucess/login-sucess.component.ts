@@ -33,7 +33,7 @@ export class LoginSucessComponent implements OnInit {
       --this.countDown;
     }
     
-    this.document.location.href = "http://localhost:50095/" + authResult.token;
+    this.document.location.href = authResult.redirectUrl;
   }
 
   private timeout(ms: number): Promise<void> {

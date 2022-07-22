@@ -105,7 +105,7 @@ namespace MyAuth_lib.Auth_Client
 
         private string CreateValidationUri(string policy)
         {
-            var uriBuilder = new UriBuilder(supplier.GetValidationUrl());        //TODO
+            var uriBuilder = new UriBuilder(supplier.GetValidationUrl());
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
             query[QUERY_POLICY] = policy;
             uriBuilder.Query = query.ToString();

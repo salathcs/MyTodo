@@ -1,16 +1,30 @@
-import { HttpClient } from '@angular/common/http';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.css'],
+  providers: [CookieService]
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
 
-  constructor(private http: HttpClient) {
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private cookieService: CookieService)
+  { }
+
+  ngOnInit() {
     
   }
 
-  title = 'MyTodo_UI';
+  public navigateToTodos(): void {
+    const userId = this.cookieService.get("userId");
+
+    this.router.navigate([`/todos/${userId}`]);
+  }
+
+  title = 'My Todos app';
 }

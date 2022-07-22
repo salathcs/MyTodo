@@ -1,7 +1,9 @@
 ﻿using Entities.Base;
 using Microsoft.AspNetCore.Http;
+using MyUtilities.Exceptions;
 using MyUtilities.Interfaces;
 using System.Security.Claims;
+using static MyAuth_lib.Constants.ClaimConstants;
 
 namespace MyUtilities.Helpers
 {
@@ -38,8 +40,31 @@ namespace MyUtilities.Helpers
                 extendedEntity.UpdatedBy = userName;
             }
         }
+        public long GetUserId()
+        {
+            var identity = GetIdentity();
 
-        private ClaimsIdentity? GetIdentity()
+            if (identity is null)
+            {
+                throw new IdentityNotFoundException("Identity not found for Todo creation!");
+            }
+
+            var userIdClaim = identity.FindFirst(x => x.Type.Equals(IDENTIFIER));
+
+            if (userIdClaim is null)
+            {
+                throw new IdentityNotFoundException("UserId claim not found!");
+            }
+
+            if (!long.TryParse(userIdClaim.Value, out long id))
+            {
+                throw new IdentityNotFoundException("UserIdClaim claim value is not a long!");
+            }
+
+            return id;
+        }
+
+        public ClaimsIdentity? GetIdentity()
         {
             var context = contextAccessor.HttpContext;
             if (context is null)

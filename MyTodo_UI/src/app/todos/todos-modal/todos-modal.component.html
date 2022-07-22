@@ -1,0 +1,25 @@
+<form #todoForm="ngForm" (ngSubmit)="onSubmit()">
+  <h2>{{title}}</h2>
+  <mat-form-field>
+    <input matInput placeholder="Title" [(ngModel)]="data.title" name="title" required>
+    <mat-error>
+      Please provide a valid title!
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="Description" [(ngModel)]="data.description" name="description"></textarea>
+    <mat-error>
+      Please provide a description!
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <input matInput type="datetime" placeholder="Expiration" [(ngModel)]="data.expiration" name="expiration">
+    <mat-error>
+      Please provide an expiration!
+    </mat-error>
+  </mat-form-field>
+  <mat-error *ngIf="submitFailed">
+    Creating Todo failed!
+  </mat-error>
+  <button mat-raised-button color="primary" [disabled]="!todoForm.form.valid">{{submitBtnTitle}}</button>
+</form>

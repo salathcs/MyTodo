@@ -84,7 +84,9 @@ namespace MyAuth_lib.Auth_Server
             return new AuthResult
             {
                 Token = token,
-                Expiration = expiration
+                Expiration = expiration,
+                Name = user.Name,
+                UserId = user.Id
             };
         }
     }
