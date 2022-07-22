@@ -1,4 +1,7 @@
 export interface AuthResult {
   token: string,
-  expiration?: Date
+  expiration?: Date,
+  name: string,
+  userId: number,
+  redirectUrl: string,
 }
