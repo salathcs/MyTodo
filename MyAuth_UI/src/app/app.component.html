@@ -1,12 +1,13 @@
-<mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+<mat-toolbar color="primary">
   <span>
     <button mat-button routerLink="/">{{title}}</button>
   </span>
-  <div>
-    <button mat-button routerLink="/"><mat-icon>home</mat-icon></button>
-    <button mat-button routerLink="/registration"><mat-icon>create</mat-icon></button>
-    <button mat-button matTooltip="This component is for registration and login."><mat-icon>info</mat-icon></button>
-  </div>
+
+  <span class="example-spacer"></span>
+
+  <button mat-icon-button routerLink="/"><mat-icon>key</mat-icon></button>
+  <button mat-icon-button routerLink="/registration"><mat-icon>create</mat-icon></button>
+  <button mat-icon-button matTooltip="This component is for registration and login."><mat-icon>info</mat-icon></button>
 </mat-toolbar>
 
 <router-outlet></router-outlet>
