@@ -6,7 +6,6 @@ using MyLogger;
 using MyTodo_Users.Interfaces;
 using MyTodo_Users.Repositories;
 using MyTodo_Users.Services;
-using MyUtilities;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -27,11 +26,9 @@ builder.Services.AddMyLogger();
 
 builder.Services.AddMyAutoMapper();
 
-builder.Services.AddMyUtilities();
-
 // Api logic DI
-builder.Services.AddScoped<IUsersService, UsersService>();
-builder.Services.AddScoped<IUsersRepository, UsersRepository>();
+builder.Services.AddScoped<ICrudService, CrudService>();
+builder.Services.AddScoped<ICrudRepository, CrudRepository>();
 
 var app = builder.Build();
 

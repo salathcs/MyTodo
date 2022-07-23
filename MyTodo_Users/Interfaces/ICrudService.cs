@@ -2,11 +2,11 @@
 
 namespace MyTodo_Users.Interfaces
 {
-    public interface IUsersService
+    public interface ICrudService
     {
         IEnumerable<UserDto> GetAll();
         UserDto? GetById(long id);
-        void Create(UserDto userDto);
+        void Create(UserWithIdentityDto userDto);
         bool Update(UserDto userDto);
         bool Delete(long id);
     }

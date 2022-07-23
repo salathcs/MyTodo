@@ -1,17 +1,17 @@
 ﻿using Entities.Base;
 using Microsoft.AspNetCore.Http;
-using MyUtilities.Exceptions;
-using MyUtilities.Interfaces;
+using MyAuth_lib.Exceptions;
+using MyAuth_lib.Interfaces;
 using System.Security.Claims;
 using static MyAuth_lib.Constants.ClaimConstants;
 
-namespace MyUtilities.Helpers
+namespace MyAuth_lib.Helpers
 {
-    public class ExtendedEntityLoader : IExtendedEntityLoader
+    public class UserIdentityHelper : IUserIdentityHelper
     {
         private readonly IHttpContextAccessor contextAccessor;
 
-        public ExtendedEntityLoader(IHttpContextAccessor contextAccessor)
+        public UserIdentityHelper(IHttpContextAccessor contextAccessor)
         {
             this.contextAccessor = contextAccessor;
         }
@@ -40,6 +40,7 @@ namespace MyUtilities.Helpers
                 extendedEntity.UpdatedBy = userName;
             }
         }
+
         public long GetUserId()
         {
             var identity = GetIdentity();

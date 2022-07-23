@@ -29,8 +29,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLogger", "MyLogger\MyLogg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTransfer", "DataTransfer\DataTransfer.csproj", "{6F3D7F68-C10C-411C-950D-E0CB704130F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyUtilities", "MyUtilities\MyUtilities.csproj", "{45A5F142-F928-474C-A49A-DCC8CDD90575}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -77,10 +75,6 @@ Global
 		{6F3D7F68-C10C-411C-950D-E0CB704130F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F3D7F68-C10C-411C-950D-E0CB704130F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F3D7F68-C10C-411C-950D-E0CB704130F4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{45A5F142-F928-474C-A49A-DCC8CDD90575}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{45A5F142-F928-474C-A49A-DCC8CDD90575}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{45A5F142-F928-474C-A49A-DCC8CDD90575}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{45A5F142-F928-474C-A49A-DCC8CDD90575}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -95,7 +89,6 @@ Global
 		{0AD8F04F-ABF2-453C-B3D4-3C65023B0ADF} = {DCA90B17-88D8-487A-8A60-81B5BF743982}
 		{81A61518-CBAC-479B-A3E9-1F3DE614418E} = {F68FE442-223A-414F-B814-F5791A80C859}
 		{6F3D7F68-C10C-411C-950D-E0CB704130F4} = {F68FE442-223A-414F-B814-F5791A80C859}
-		{45A5F142-F928-474C-A49A-DCC8CDD90575} = {F68FE442-223A-414F-B814-F5791A80C859}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0221CAC5-D6AF-4785-BE67-2B95FEFDDB77}

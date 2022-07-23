@@ -3,7 +3,7 @@ using Entities.Models;
 
 namespace MyTodo_Users.Interfaces
 {
-    public interface IUsersRepository
+    public interface ICrudRepository
     {
         IEnumerable<UserDto> GetAll();
         UserDto? GetById(long id);

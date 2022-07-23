@@ -13,6 +13,7 @@ using static MyAuth_lib.Constants.AuthConstants;
 using static MyAuth_lib.Constants.PolicyConstants;
 using static Entities.Constants.PermissionNames;
 using Microsoft.OpenApi.Models;
+using MyAuth_lib.Helpers;
 
 namespace MyAuth_lib
 {
@@ -63,6 +64,7 @@ namespace MyAuth_lib
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped(typeof(IIdentityRepository), typeof(IdentityRepo));
             services.AddScoped(typeof(IAuthServerSupplier), typeof(Supplier));
+            services.AddScoped<IUserIdentityHelper, UserIdentityHelper>();
 
             //policy provider
             services.AddSingleton<IAuthorizationPolicyProvider, AuthServerPolicyProvider>();
@@ -90,10 +92,14 @@ namespace MyAuth_lib
             services.AddSingleton<IAuthorizationPolicyProvider, ClientPolicyProvider>();
 
             services.AddScoped<IAuthorizationHandler, ClientJwtAuthReqHandler>();
+            services.AddScoped<IAuthorizationHandler, TodoResourceBasedReqHandler>();
+            services.AddScoped<IAuthorizationHandler, UserResourceBasedReqHandler>();
 
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(ADMIN_POLICY, builder => builder.AddRequirements(new ClientJwtAuthReq(ADMIN_POLICY)));
+                options.AddPolicy(RESOURCE_BASED_TODO_POLICY, builder => builder.AddRequirements(new ResourceBasedReq()));
+                options.AddPolicy(RESOURCE_BASED_USER_POLICY, builder => builder.AddRequirements(new ResourceBasedReq()));
             });
 
             services.AddHttpClient()
@@ -101,6 +107,7 @@ namespace MyAuth_lib
                 .AddMemoryCache();
 
             services.AddScoped(typeof(IAuthClientSupplier), typeof(Supplier));
+            services.AddScoped<IUserIdentityHelper, UserIdentityHelper>();
 
             return services;
         }

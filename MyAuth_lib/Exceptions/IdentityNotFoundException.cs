@@ -1,4 +1,4 @@
-﻿namespace MyUtilities.Exceptions
+﻿namespace MyAuth_lib.Exceptions
 {
     public class IdentityNotFoundException : Exception
     {

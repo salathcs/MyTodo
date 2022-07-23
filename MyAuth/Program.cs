@@ -29,7 +29,6 @@ builder.Services.AddMyAuthAutoMapper();
 //DI
 builder.Services.AddScoped<IRegistrationService, RegistrationService>();
 builder.Services.AddScoped<IRegistrationRepository, RegistrationRepository>();
-builder.Services.AddScoped<ILoginService, LoginService>();
 
 var app = builder.Build();
 

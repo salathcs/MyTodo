@@ -1,1 +1,9 @@
-<p>users-tool-bar works!</p>
+<mat-toolbar>
+  <mat-label>{{title}}</mat-label>
+
+  <button mat-icon-button (click)="openCreateDialog()" disabled color="primary" matTooltip="Create new"><mat-icon>add</mat-icon></button>
+  <button mat-icon-button (click)="openUpdateDialog()" [disabled]="selectedUser === null" color="primary" matTooltip="Edit selected"><mat-icon>edit</mat-icon></button>
+  <button mat-icon-button (click)="deleteSelected()" [disabled]="selectedUser === null" color="error" matTooltip="Delete selected"><mat-icon>delete</mat-icon></button>
+  <button mat-icon-button (click)="refreshGrid(null)" color="" matTooltip="Refresh grid"><mat-icon>refresh</mat-icon></button>
+  <button mat-icon-button (click)="navigateToUserTodos()" [disabled]="selectedUser === null" matTooltip="Navigate to selected user todos"><mat-icon>listalt</mat-icon></button>
+</mat-toolbar>

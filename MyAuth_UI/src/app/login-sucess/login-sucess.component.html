@@ -1,6 +1,12 @@
 <mat-card>
-  <h1>Login succeed</h1>
-  <mat-label *ngIf="countDownValid">Time left before redirect to MyTodo: {{countDown}}</mat-label>
+  <mat-card-content>
+    <h1>Login succeed</h1>
+    <mat-label *ngIf="countDownValid">Time left before redirect to MyTodo: {{countDown}}</mat-label>
 
-  <mat-error *ngIf="!countDownValid">Something went wrong! Try to login again!</mat-error>
+    <mat-divider></mat-divider>
+
+    <button *ngIf="countDownValid" mat-raised-button color="primary" (click)="redirectImmediately()">Click</button>
+
+    <mat-error *ngIf="!countDownValid">Something went wrong! Try to login again!</mat-error>
+  </mat-card-content>
 </mat-card>

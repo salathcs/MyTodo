@@ -4,6 +4,6 @@ namespace MyAuth.Interfaces
 {
     public interface IRegistrationService
     {
-        void Register(UserDto userDto);
+        void Register(UserWithIdentityDto userDto);
     }
 }

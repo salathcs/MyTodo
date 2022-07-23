@@ -2,9 +2,7 @@
   <mat-label>{{title}}</mat-label>
 
   <button mat-icon-button (click)="openCreateDialog()" color="primary" matTooltip="Create new"><mat-icon>add</mat-icon></button>
-  <button mat-icon-button (click)="tmp()" color="primary" matTooltip="Edit selected"><mat-icon>edit</mat-icon></button>
-  <button mat-icon-button (click)="tmp()" color="error" matTooltip="Delete selected"><mat-icon>delete</mat-icon></button>
-  <button mat-icon-button (click)="tmp()" color="" matTooltip="Refresh grid"><mat-icon>refresh</mat-icon></button>
+  <button mat-icon-button (click)="openUpdateDialog()" [disabled]="selectedTodo === null" color="primary" matTooltip="Edit selected"><mat-icon>edit</mat-icon></button>
+  <button mat-icon-button (click)="deleteSelected()" [disabled]="selectedTodo === null" color="error" matTooltip="Delete selected"><mat-icon>delete</mat-icon></button>
+  <button mat-icon-button (click)="refreshGrid(null)" color="" matTooltip="Refresh grid"><mat-icon>refresh</mat-icon></button>
 </mat-toolbar>
-
-<router-outlet></router-outlet>

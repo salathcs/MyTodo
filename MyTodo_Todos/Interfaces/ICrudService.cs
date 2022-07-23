@@ -2,7 +2,7 @@
 
 namespace MyTodo_Todos.Interfaces
 {
-    public interface ITodosService
+    public interface ICrudService
     {
         IEnumerable<TodoDto> GetAll();
         TodoDto? GetById(long id);
