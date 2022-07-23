@@ -21,6 +21,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
+import { MatDividerModule } from '@angular/material/divider';
 import { LoginSucessComponent } from './login-sucess/login-sucess.component';
 import { RegistrationSucessComponent } from './registration-sucess/registration-sucess.component';
 
@@ -49,6 +50,7 @@ import { RegistrationSucessComponent } from './registration-sucess/registration-
     MatSelectModule,
     MatOptionModule,
     MatTooltipModule,
+    MatDividerModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

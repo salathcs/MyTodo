@@ -1,1 +1,22 @@
-<p>users-modal works!</p>
+<form #userForm="ngForm" (ngSubmit)="onSubmit()">
+  <h2>{{title}}</h2>
+  <mat-form-field>
+    <input matInput placeholder="Name" [(ngModel)]="data.name" name="name" required>
+    <mat-error>
+      Please provide a valid name!
+    </mat-error>
+  </mat-form-field>
+  <mat-form-field>
+    <textarea matInput placeholder="Email" [(ngModel)]="data.email" name="email"></textarea>
+    <mat-error>
+      Please provide a email!
+    </mat-error>
+  </mat-form-field>
+  <mat-checkbox *ngIf="adminRightVisible">
+    Admin
+  </mat-checkbox>
+  <mat-error *ngIf="submitFailed">
+    Process failed!
+  </mat-error>
+  <button mat-raised-button color="primary" [disabled]="!userForm.form.valid">{{submitBtnTitle}}</button>
+</form>

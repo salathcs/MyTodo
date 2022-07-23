@@ -1,1 +1,6 @@
-<p>users works!</p>
+
+<app-users-tool-bar (onRefresh)="onRefreshGrid($event)"
+                    [onSelectedRowChanged]="selectedRowChanged.asObservable()"></app-users-tool-bar>
+
+<app-users-grid [onRefreshGrid]="refreshGrid.asObservable()"
+                (onSelectedRowChanged)="onSelectedRowChanged($event)"></app-users-grid>

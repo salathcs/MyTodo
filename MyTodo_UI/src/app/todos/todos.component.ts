@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Subject } from 'rxjs';
 import { TodoDto } from '../models/todo-dto';
 
@@ -7,7 +7,7 @@ import { TodoDto } from '../models/todo-dto';
   templateUrl: './todos.component.html',
   styleUrls: ['./todos.component.css']
 })
-export class TodosComponent implements OnInit {
+export class TodosComponent {
 
   //from toolBar
   public refreshGrid: Subject<TodoDto | null> = new Subject<TodoDto | null>();
@@ -16,8 +16,6 @@ export class TodosComponent implements OnInit {
   public selectedRowChanged: Subject<TodoDto | null> = new Subject<TodoDto | null>();
 
   constructor() { }
-
-  ngOnInit(): void { }
 
   //from toolBar
   public onRefreshGrid(event: TodoDto | null): void {

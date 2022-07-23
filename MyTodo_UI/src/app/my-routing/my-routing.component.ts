@@ -19,7 +19,8 @@ export class MyRoutingComponent implements OnInit {
       .subscribe(params => {
         const name = params['name'];
         const userId = params['userId'];
-        const expiration = this.getDateFromTicks(params['expiration']);
+        const expirationTicks = Number.parseInt(params['expiration']);
+        const expiration = new Date(expirationTicks); 
         const token = params['token'];
         this.cookieService.set('name', name, expiration);
         this.cookieService.set('userId', userId, expiration);

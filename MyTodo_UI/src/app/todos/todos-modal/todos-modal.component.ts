@@ -42,7 +42,7 @@ export class TodosModalComponent {
   }
 
   private updateTodo(): void {
-    this.http.put<TodoDto>('/api/todos/crud/', this.data).subscribe(result => {
+    this.http.put<TodoDto>('/api/todos/crud/', this.data).subscribe(_ => {
       this.dialogRef.close(this.data);
     }, error => {
       console.error(error);
