@@ -2,28 +2,31 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MyTodo_Todos.Interfaces;
+using static MyAuth_lib.Constants.PolicyConstants;
 
 namespace MyTodo_Todos.Controllers
 {
     [Authorize]
-    [Route("api/[controller]")]
+    [Route("api/todos/[controller]")]
     [ApiController]
-    public class TodosController : ControllerBase
+    public class CrudController : ControllerBase
     {
-        private readonly ITodosService todosService;
+        private readonly ICrudService crudService;
+        private readonly IAuthorizationService authorizationService;
 
-        public TodosController(ITodosService todosService)
+        public CrudController(ICrudService todosService, IAuthorizationService authorizationService)
         {
-            this.todosService = todosService;
+            this.crudService = todosService;
+            this.authorizationService = authorizationService;
         }
 
         // GET: api/<TodosController>
-        [Authorize("Admin")]
+        [Authorize(ADMIN_POLICY)]
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoDto>))]
         public IEnumerable<TodoDto> Get()
         {
-            return todosService.GetAll();
+            return crudService.GetAll();
         }
 
         // GET api/<TodosController>/5
@@ -32,14 +35,14 @@ namespace MyTodo_Todos.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get(long id)
         {
-            var user = todosService.GetById(id);
+            var todo = crudService.GetById(id);
 
-            if (user is null)
+            if (todo is null)
             {
                 return NotFound();
             }
 
-            return Ok(user);
+            return Ok(todo);
         }
 
         // POST api/<TodosController>
@@ -47,7 +50,7 @@ namespace MyTodo_Todos.Controllers
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TodoDto))]
         public IActionResult Post([FromBody] TodoDto todoDto)
         {
-            todosService.Create(todoDto);
+            crudService.Create(todoDto);
 
             return CreatedAtAction(nameof(Get), new { id = todoDto.Id }, todoDto);
         }
@@ -55,28 +58,50 @@ namespace MyTodo_Todos.Controllers
         // PUT api/<TodosController>/5
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Put([FromBody] TodoDto todoDto)
+        public async Task<IActionResult> Put([FromBody] TodoDto todoDto)
         {
-            if (!todosService.Update(todoDto))
+            var todo = crudService.GetById(todoDto.Id);
+
+            if (todo is null)
             {
                 return NotFound();
             }
 
+            var authorizationResult = await authorizationService.AuthorizeAsync(User, todo, RESOURCE_BASED_TODO_POLICY);
+
+            if (!authorizationResult.Succeeded)
+            {
+                return Forbid();
+            }
+
+            crudService.Update(todoDto);
             return NoContent();
         }
 
         // DELETE api/<TodosController>/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public IActionResult Delete(long id)
+        public async Task<IActionResult> Delete(long id)
         {
-            if (!todosService.Delete(id))
+            var todo = crudService.GetById(id);
+
+            if (todo is null)
             {
                 return NotFound();
             }
 
+            var authorizationResult = await authorizationService.AuthorizeAsync(User, todo, RESOURCE_BASED_TODO_POLICY);
+
+            if (!authorizationResult.Succeeded)
+            {
+                return Forbid();
+            }
+
+            crudService.Delete(id);
             return NoContent();
         }
     }

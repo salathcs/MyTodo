@@ -1,21 +1,21 @@
 ﻿using AutoMapper;
 using DataTransfer.DataTransferObjects;
 using Entities.Models;
+using MyAuth_lib.Interfaces;
 using MyTodo_Users.Interfaces;
-using MyUtilities.Interfaces;
 
 namespace MyTodo_Users.Services
 {
     public class UsersService : IUsersService
     {
         private readonly IUsersRepository usersRepository;
-        private readonly IExtendedEntityLoader entityLoader;
+        private readonly IUserIdentityHelper userIdentityHelper;
         private readonly IMapper mapper;
 
-        public UsersService(IUsersRepository usersRepository, IExtendedEntityLoader entityLoader, IMapper mapper)
+        public UsersService(IUsersRepository usersRepository, IUserIdentityHelper userIdentityHelper, IMapper mapper)
         {
             this.usersRepository = usersRepository;
-            this.entityLoader = entityLoader;
+            this.userIdentityHelper = userIdentityHelper;
             this.mapper = mapper;
         }
 
@@ -32,7 +32,7 @@ namespace MyTodo_Users.Services
         public void Create(UserDto userDto)
         {
             var user = mapper.Map<User>(userDto);
-            entityLoader.TryFillExtendedEntityFields(user);
+            userIdentityHelper.TryFillExtendedEntityFields(user);
             usersRepository.Create(user);
 
             userDto.Id = user.Id;       //result
@@ -48,7 +48,7 @@ namespace MyTodo_Users.Services
             }
 
             mapper.Map(userDto, user);
-            entityLoader.TryFillExtendedEntityFields(user);
+            userIdentityHelper.TryFillExtendedEntityFields(user);
             usersRepository.Update(user);
 
             return true;

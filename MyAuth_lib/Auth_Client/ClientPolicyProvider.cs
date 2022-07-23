@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Options;
+using MyAuth_lib.MyAuthPolicies.Requirements;
 using static MyAuth_lib.Constants.AuthConstants;
+using static MyAuth_lib.Constants.PolicyConstants;
 
 namespace MyAuth_lib.Auth_Client
 {
@@ -29,6 +31,13 @@ namespace MyAuth_lib.Auth_Client
         /// <inheritdoc />
         public Task<AuthorizationPolicy?> GetPolicyAsync(string policyName)
         {
+            if (policyName.StartsWith(RESOURCE_BASED_PREFIX))
+            {
+                var resourceBasedPolicy = new AuthorizationPolicyBuilder();
+                resourceBasedPolicy.AddRequirements(new ResourceBasedReq());
+                return Task.FromResult(resourceBasedPolicy.Build());
+            }
+
             var policy = new AuthorizationPolicyBuilder();
             policy.AddRequirements(new ClientJwtAuthReq(policyName));       // Policy name need to be sent to the validation service
             return Task.FromResult(policy.Build());

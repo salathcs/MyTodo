@@ -39,10 +39,8 @@ namespace MyAuth_lib.Auth_Server
                 policy.RequireAuthenticatedUser();
                 return Task.FromResult(policy.Build());
             }
-            else
-            {
-                return Task.FromResult(Options.GetPolicy(policyName));
-            }
+
+            return Task.FromResult(Options.GetPolicy(policyName));
         }
     }
 }

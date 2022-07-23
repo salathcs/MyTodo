@@ -3,7 +3,7 @@ using Entities.Models;
 
 namespace MyTodo_Todos.Interfaces
 {
-    public interface ITodosRepository
+    public interface ICrudRepository
     {
         IEnumerable<TodoDto> GetAll();
         TodoDto? GetById(long id);

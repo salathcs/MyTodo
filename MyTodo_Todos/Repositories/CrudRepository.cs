@@ -7,12 +7,12 @@ using MyTodo_Todos.Interfaces;
 
 namespace MyTodo_Todos.Repositories
 {
-    public class TodosRepository : ITodosRepository
+    public class CrudRepository : ICrudRepository
     {
         private readonly MyTodoContext context;
         private readonly IMapper mapper;
 
-        public TodosRepository(MyTodoContext context, IMapper mapper)
+        public CrudRepository(MyTodoContext context, IMapper mapper)
         {
             this.context = context;
             this.mapper = mapper;
