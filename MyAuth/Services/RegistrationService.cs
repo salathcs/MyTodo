@@ -16,7 +16,7 @@ namespace MyAuth.Services
             this.mapper = mapper;
         }
 
-        public void Register(UserDto userDto)
+        public void Register(UserWithIdentityDto userDto)
         {
             var user = mapper.Map<User>(userDto);
             user.Created = DateTime.UtcNow;

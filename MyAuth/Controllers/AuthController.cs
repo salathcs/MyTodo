@@ -60,7 +60,7 @@ namespace MyAuth.Controllers
         [HttpPost("Register")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status409Conflict)]
-        public IActionResult Register(UserDto userDto)
+        public IActionResult Register(UserWithIdentityDto userDto)
         {
             try
             {

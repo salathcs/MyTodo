@@ -9,6 +9,9 @@ namespace DataTransfer.Profiles
         public MyDtoProfile()
         {
             CreateMap<User, UserDto>()
+                .ReverseMap();
+
+            CreateMap<User, UserWithIdentityDto>()
                 .ForMember(dto => dto.UserName, opt => opt.MapFrom(entity => entity.UserIdentity.UserName))
                 .ReverseMap()
                 .ForPath(entity => entity.UserIdentity.UserName, opt => opt.MapFrom(dto => dto.UserName))

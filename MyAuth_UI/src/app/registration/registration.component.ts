@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { UserDto } from '../models/user-dto';
+import { UserWithIdentityDto } from '../models/user-with-identity-dto';
 
 @Component({
   selector: 'app-registration',
@@ -23,7 +23,7 @@ export class RegistrationComponent {
 
   public onSubmit(): void {
     if (this.valid()) {
-      this.http.post<UserDto>('/auth/Register', { Id: 0, Name: this.name, Email: this.email, UserName: this.username, Password: this.password }).subscribe(_ => {
+      this.http.post<UserWithIdentityDto>('/auth/Register', { Id: 0, Name: this.name, Email: this.email, UserName: this.username, Password: this.password }).subscribe(_ => {
         this.router.navigate(['/registration-success']);
       }, error => {
         console.error(error);

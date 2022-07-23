@@ -1,100 +1,99 @@
 ﻿using DataTransfer.DataTransferObjects;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using MyTodo_Todos.Interfaces;
+using MyTodo_Users.Interfaces;
 using static MyAuth_lib.Constants.PolicyConstants;
 
-namespace MyTodo_Todos.Controllers
+namespace MyTodo_Users.Controllers
 {
     [Authorize]
-    [Route("api/todos/[controller]")]
+    [Route("api/users/[controller]")]
     [ApiController]
     public class CrudController : ControllerBase
     {
         private readonly ICrudService crudService;
         private readonly IAuthorizationService authorizationService;
 
-        public CrudController(ICrudService todosService, IAuthorizationService authorizationService)
+        public CrudController(ICrudService crudService, IAuthorizationService authorizationService)
         {
-            this.crudService = todosService;
+            this.crudService = crudService;
             this.authorizationService = authorizationService;
         }
 
-        // GET: api/<TodosController>
-        [Authorize(ADMIN_POLICY)]
+        // GET: api/<UsersController>
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoDto>))]
-        public IEnumerable<TodoDto> Get()
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDto>))]
+        public IEnumerable<UserDto> Get()
         {
             return crudService.GetAll();
         }
 
-        // GET api/<TodosController>/5
+        // GET api/<UsersController>/5
         [HttpGet("{id}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(TodoDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(UserDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public IActionResult Get(long id)
         {
-            var todo = crudService.GetById(id);
+            var user = crudService.GetById(id);
 
-            if (todo is null)
+            if (user is null)
             {
                 return NotFound();
             }
 
-            return Ok(todo);
+            return Ok(user);
         }
 
-        // POST api/<TodosController>
+        // POST api/<UsersController>
+        [Authorize(ADMIN_POLICY)]
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TodoDto))]
-        public IActionResult Post([FromBody] TodoDto todoDto)
+        public IActionResult Post([FromBody] UserWithIdentityDto userDto)
         {
-            crudService.Create(todoDto);
+            crudService.Create(userDto);
 
-            return CreatedAtAction(nameof(Get), new { id = todoDto.Id }, todoDto);
+            return CreatedAtAction(nameof(Get), new { id = userDto.Id }, userDto);
         }
 
-        // PUT api/<TodosController>/5
+        // PUT api/<UsersController>/5
         [HttpPut]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> Put([FromBody] TodoDto todoDto)
+        public async Task<IActionResult> Put([FromBody] UserDto userDto)
         {
-            var existingTodo = crudService.GetById(todoDto.Id);
+            var existingUser = crudService.GetById(userDto.Id);
 
-            if (existingTodo is null)
+            if (existingUser is null)
             {
                 return NotFound();
             }
 
-            var authorizationResult = await authorizationService.AuthorizeAsync(User, existingTodo, RESOURCE_BASED_TODO_POLICY);
+            var authorizationResult = await authorizationService.AuthorizeAsync(User, existingUser, RESOURCE_BASED_USER_POLICY);
 
             if (!authorizationResult.Succeeded)
             {
                 return Forbid();
             }
 
-            crudService.Update(todoDto);
+            crudService.Update(userDto);
             return NoContent();
         }
 
-        // DELETE api/<TodosController>/5
+        // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(long id)
         {
-            var existingTodo = crudService.GetById(id);
+            var existingUser = crudService.GetById(id);
 
-            if (existingTodo is null)
+            if (existingUser is null)
             {
                 return NotFound();
             }
 
-            var authorizationResult = await authorizationService.AuthorizeAsync(User, existingTodo, RESOURCE_BASED_TODO_POLICY);
+            var authorizationResult = await authorizationService.AuthorizeAsync(User, existingUser, RESOURCE_BASED_USER_POLICY);
 
             if (!authorizationResult.Succeeded)
             {
