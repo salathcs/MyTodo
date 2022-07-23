@@ -1,4 +1,10 @@
 
-<app-todos-tool-bar></app-todos-tool-bar>
+<app-todos-tool-bar
+                    (onRefresh)="onRefreshGrid($event)"
+                    [onSelectedRowChanged]="selectedRowChanged.asObservable()"
+                    ></app-todos-tool-bar>
 
-<app-todos-grid></app-todos-grid>
+<app-todos-grid
+                [onRefreshGrid]="refreshGrid.asObservable()"
+                (onSelectedRowChanged)="onSelectedRowChanged($event)"
+                ></app-todos-grid>

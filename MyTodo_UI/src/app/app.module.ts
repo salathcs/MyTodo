@@ -19,6 +19,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSortModule } from '@angular/material/sort';
 import { ErrorComponent } from './error/error.component';
 import { MyRoutingComponent } from './my-routing/my-routing.component';
 import { TodosGridComponent } from './todos/todos-grid/todos-grid.component';
@@ -61,6 +62,7 @@ import { FormsModule } from '@angular/forms';
     MatOptionModule,
     MatTooltipModule,
     MatDialogModule,
+    MatSortModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

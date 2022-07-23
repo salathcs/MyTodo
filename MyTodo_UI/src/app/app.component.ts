@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -11,13 +11,11 @@ import { CookieService } from 'ngx-cookie-service';
 export class AppComponent implements OnInit {
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private cookieService: CookieService)
   { }
 
   ngOnInit() {
-    
   }
 
   public navigateToTodos(): void {

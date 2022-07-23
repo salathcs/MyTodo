@@ -15,13 +15,14 @@ export class TodosModalComponent {
 
   constructor(
     public dialogRef: MatDialogRef<TodosModalComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: TodoDto,) {
+    @Inject(MAT_DIALOG_DATA) public data: TodoDto,
+    ) {
     this.title = data.id === 0 ? "Create Todo" : "Update Todo";
     this.submitBtnTitle = data.id === 0 ? "Create" : "Update";
   }
 
   onSubmit(): void {
-    this.dialogRef.close();
+    this.dialogRef.close(this.data);
   }
 
 }

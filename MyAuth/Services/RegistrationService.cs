@@ -21,8 +21,8 @@ namespace MyAuth.Services
             var user = mapper.Map<User>(userDto);
             user.Created = DateTime.UtcNow;
             user.Updated = DateTime.UtcNow;
-            user.CreatedBy = "System";
-            user.UpdatedBy = "System";
+            user.CreatedBy = "Registration";
+            user.UpdatedBy = "Registration";
             registrationRepository.CreateUser(user);
         }
     }
