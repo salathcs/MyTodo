@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Observable, Subscription } from 'rxjs';
@@ -20,7 +21,8 @@ export class TodosToolBarComponent implements OnInit, OnDestroy {
   @Output() onRefresh: EventEmitter<TodoDto | null> = new EventEmitter();
 
   constructor(
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private http: HttpClient) { }
 
   ngOnInit(): void {
     if (this.onSelectedRowChanged !== undefined) {
@@ -48,7 +50,7 @@ export class TodosToolBarComponent implements OnInit, OnDestroy {
 
     const dialogRef = this.dialog.open(TodosModalComponent, {
       width: '450px',
-      data: this.selectedTodo
+      data: Object.assign({}, this.selectedTodo)
     });
 
     dialogRef.afterClosed().subscribe(this.afterClosedGridUpdate);
@@ -60,7 +62,12 @@ export class TodosToolBarComponent implements OnInit, OnDestroy {
     }
 
     if (confirm("Are you sure to delete the selected item?")) {
-      console.log("Implement delete functionality here");
+      this.http.delete<TodoDto>(`/api/todos/crud/${this.selectedTodo.id}`).subscribe(_ => {
+        this.refreshGrid(null);
+      }, error => {
+        console.error(error);
+        alert("Delete failed!");
+      });
     }
   }
 

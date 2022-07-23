@@ -12,7 +12,8 @@ import { TodoDto } from '../../models/todo-dto';
   styleUrls: ['./todos-grid.component.css']
 })
 export class TodosGridComponent implements OnInit, AfterViewInit, OnDestroy {
-  //public todoList: TodoDto[] = [];
+  private userId?: string = undefined;
+
   public displayedColumns: string[] = ['title', 'description', 'expiration'];
 
   public selectedRow: TodoDto | null = null;
@@ -33,9 +34,9 @@ export class TodosGridComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.route.params
       .subscribe(params => {
-        const userId = params["userId"];
+        this.userId = params["userId"];
 
-        if (userId !== undefined) {
+        if (this.userId !== undefined) {
           this.getTodos();
         }
         else {
@@ -71,8 +72,13 @@ export class TodosGridComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getTodos(): void {
-    this.http.get<TodoDto[]>('/api/todos/').subscribe(result => {
+    if (this.userId === undefined) {
+      return;
+    }
+
+    this.http.get<TodoDto[]>(`/api/todos/manager/GetByUserId/${this.userId}`).subscribe(result => {
       this.dataSource.data = result;
+      this.onSelectedRowChanged.emit(null);
     }, error => {
       console.error(error);
       this.router.navigate(['/error']);

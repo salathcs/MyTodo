@@ -19,7 +19,7 @@
     </mat-error>
   </mat-form-field>
   <mat-error *ngIf="submitFailed">
-    Creating Todo failed!
+    Process failed!
   </mat-error>
   <button mat-raised-button color="primary" [disabled]="!todoForm.form.valid">{{submitBtnTitle}}</button>
 </form>
