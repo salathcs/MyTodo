@@ -23,13 +23,13 @@ namespace MyTodo_Todos.Repositories
             return context.Todos.Where(x => x.UserId == userId).ProjectTo<TodoDto>(mapper.ConfigurationProvider).ToList();
         }
 
-        public IEnumerable<TodoDto> GetByExpiration(int expirationMinutes)
+        public IEnumerable<TodoWithEmailDto> GetByExpiration(int expirationMinutes)
         {
             //emailSent false, Expiration is larger then current time, but smaller then the specified
             return context.Todos.Where(x => !(x.EmailSent ?? false) &&
             x.Expiration > DateTime.UtcNow &&
             x.Expiration < DateTime.UtcNow.AddMinutes(expirationMinutes))
-                .ProjectTo<TodoDto>(mapper.ConfigurationProvider).ToList();
+                .ProjectTo<TodoWithEmailDto>(mapper.ConfigurationProvider).ToList();
         }
 
         public IEnumerable<Todo> GetTodosByIds(IEnumerable<long> todoIds)

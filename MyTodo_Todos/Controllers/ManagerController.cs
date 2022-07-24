@@ -44,7 +44,7 @@ namespace MyTodo_Todos.Controllers
 
         [Authorize(ADMIN_POLICY)]
         [HttpGet("GetByExpiration/{expirationMinutes}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoWithEmailDto>))]
         public IActionResult GetByExpiration(int expirationMinutes)
         {
             var todos = managerService.GetByExpiration(expirationMinutes);

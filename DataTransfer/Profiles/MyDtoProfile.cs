@@ -20,6 +20,10 @@ namespace DataTransfer.Profiles
             CreateMap<Todo, TodoDto>()
                 .ReverseMap()
                 .ForPath(entity => entity.UserId, opt => opt.Ignore());
+
+
+            CreateMap<Todo, TodoWithEmailDto>()
+                .ForMember(dto => dto.Email, opt => opt.MapFrom(entity => entity.TodoUser.Email));
         }
     }
 }

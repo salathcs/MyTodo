@@ -38,7 +38,8 @@ namespace Entities
             modelBuilder.Entity<Identity>().HasIndex(x => x.UserName).IsUnique();
 
             var adminIdentity = new Identity { Id = 1, UserName = "admin", Password = "admin" };
-            modelBuilder.Entity<Identity>().HasData(adminIdentity);
+            var emailWorkerIdentity = new Identity { Id = 2, UserName = "emailWorker", Password = "r1eH#emE295&" };
+            modelBuilder.Entity<Identity>().HasData(adminIdentity, emailWorkerIdentity);
 
             //User config
             //one to one connection between identity and user
@@ -55,7 +56,18 @@ namespace Entities
                 UpdatedBy = "System",
                 IdentityId = adminIdentity.Id
             };
-            modelBuilder.Entity<User>().HasData(admin);
+            var emailWorker = new User
+            {
+                Id = 2,
+                Name = "EmailWorker",
+                Email = "MyAdmin@tmp.com",
+                Created = DateTime.UtcNow,
+                Updated = DateTime.UtcNow,
+                CreatedBy = "System",
+                UpdatedBy = "System",
+                IdentityId = emailWorkerIdentity.Id
+            };
+            modelBuilder.Entity<User>().HasData(admin, emailWorker);
 
             //Permission config
             modelBuilder.Entity<Permission>().HasIndex(x => x.PermissionName).IsUnique();
@@ -76,6 +88,12 @@ namespace Entities
             {
                 Id = 1,
                 UserId = admin.Id,
+                PermissionId = adminPermission.Id
+            },
+            new UserPermission
+            {
+                Id = 2,
+                UserId = emailWorker.Id,
                 PermissionId = adminPermission.Id
             });
 

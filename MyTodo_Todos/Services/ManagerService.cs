@@ -17,7 +17,7 @@ namespace MyTodo_Todos.Services
             return managerRepository.GetByUserId(userId);
         }
 
-        public IEnumerable<TodoDto> GetByExpiration(int expirationMinutes)
+        public IEnumerable<TodoWithEmailDto> GetByExpiration(int expirationMinutes)
         {
             return managerRepository.GetByExpiration(expirationMinutes);
         }
