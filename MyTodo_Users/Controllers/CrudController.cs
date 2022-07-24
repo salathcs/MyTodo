@@ -47,6 +47,7 @@ namespace MyTodo_Users.Controllers
         // POST api/<UsersController>
         [Authorize(ADMIN_POLICY)]
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult Post([FromBody] UserWithIdentityDto userDto)
         {
             crudService.Create(userDto);

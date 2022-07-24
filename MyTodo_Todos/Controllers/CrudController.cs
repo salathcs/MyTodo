@@ -47,7 +47,7 @@ namespace MyTodo_Todos.Controllers
 
         // POST api/<TodosController>
         [HttpPost]
-        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TodoDto))]
+        [ProducesResponseType(StatusCodes.Status201Created)]
         public IActionResult Post([FromBody] TodoDto todoDto)
         {
             crudService.Create(todoDto);

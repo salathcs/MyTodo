@@ -43,6 +43,16 @@ namespace MyTodo_Todos.Controllers
         }
 
         [Authorize(ADMIN_POLICY)]
+        [HttpPost("CreateTodoFor/{userId}")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TodoDto))]
+        public IActionResult Post(long userId, [FromBody] TodoDto todoDto)
+        {
+            managerService.CreateTodoFor(userId, todoDto);
+
+            return CreatedAtAction(nameof(CrudController.Get), "Crud", new { id = todoDto.Id }, todoDto);
+        }
+
+        [Authorize(ADMIN_POLICY)]
         [HttpGet("GetByExpiration/{expirationMinutes}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoWithEmailDto>))]
         public IActionResult GetByExpiration(int expirationMinutes)
