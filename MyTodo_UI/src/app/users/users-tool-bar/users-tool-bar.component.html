@@ -5,5 +5,5 @@
   <button mat-icon-button (click)="openUpdateDialog()" [disabled]="selectedUser === null" color="primary" matTooltip="Edit selected"><mat-icon>edit</mat-icon></button>
   <button mat-icon-button (click)="deleteSelected()" [disabled]="selectedUser === null" color="error" matTooltip="Delete selected"><mat-icon>delete</mat-icon></button>
   <button mat-icon-button (click)="refreshGrid(null)" color="" matTooltip="Refresh grid"><mat-icon>refresh</mat-icon></button>
-  <button mat-icon-button (click)="navigateToUserTodos()" [disabled]="selectedUser === null" matTooltip="Navigate to selected user todos"><mat-icon>listalt</mat-icon></button>
+  <button mat-icon-button (click)="navigateToUserTodos()" [disabled]="!adminRight || selectedUser === null" matTooltip="Navigate to selected user todos"><mat-icon>listalt</mat-icon></button>
 </mat-toolbar>

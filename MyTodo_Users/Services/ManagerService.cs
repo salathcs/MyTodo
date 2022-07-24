@@ -73,5 +73,17 @@ namespace MyTodo_Users.Services
 
             return true;
         }
+
+        public bool DoesUserHaveAdminRight(long userId)
+        {
+            var user = crudRepository.GetEntityById(userId);
+
+            if (user is null)
+            {
+                return false;
+            }
+
+            return user.UserPermissions.Any(x => x.UserPermission_Permission.PermissionName.Equals(ADMIN_PERMISSION));
+        }
     }
 }

@@ -14,7 +14,9 @@ export class UsersModalComponent implements OnInit {
 
   public submitFailed: boolean = false;
 
-  public adminRightVisible: boolean = false;
+  public adminRight: boolean = false;
+
+  public adminRightChecked: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<UsersModalComponent>,
@@ -26,23 +28,30 @@ export class UsersModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //authenticated user is admin?
     this.http.head<any>('/api/users/manager/HasAdminRight').subscribe(_ => {
-      this.adminRightVisible = true;
+      this.adminRight = true;
+      //if admin, then the selected user is admin?
+      this.http.head<any>(`/api/users/manager/DoesUserHaveAdminRight/${this.data.id}`).subscribe(_ => {
+        this.adminRightChecked = true;
+      }, _ => {
+        this.adminRightChecked = false;
+      });
     }, _ => {
-      this.adminRightVisible = false;
+      this.adminRight = false;
     });
   }
 
   onSubmit(): void {
     if (this.data.id > 0) {
-      this.updateTodo();
+      this.updateUserSelector();
     }
     else {
-      this.createTodo();
+      this.createUser();
     }
   }
 
-  private createTodo(): void {
+  private createUser(): void {
     this.http.post<UserDto>('/api/users/crud/', this.data).subscribe(result => {
       this.dialogRef.close(result);
     }, error => {
@@ -51,8 +60,38 @@ export class UsersModalComponent implements OnInit {
     });
   }
 
-  private updateTodo(): void {
+  private updateUserSelector(): void {
+    if (!this.adminRight) {
+      this.updateUser();
+    }
+    else if (this.adminRightChecked) {
+      this.updateUserAndAddAdminRight();
+    }
+    else {
+      this.updateUserAndRemoveAdminRight();
+    }
+  }
+
+  private updateUser(): void {
     this.http.put<UserDto>('/api/users/crud/', this.data).subscribe(_ => {
+      this.dialogRef.close(this.data);
+    }, error => {
+      console.error(error);
+      this.submitFailed = true;
+    });
+  }
+
+  private updateUserAndAddAdminRight(): void {
+    this.http.put<UserDto>('/api/users/manager/UpdateUserAndAddAdminRight', this.data).subscribe(_ => {
+      this.dialogRef.close(this.data);
+    }, error => {
+      console.error(error);
+      this.submitFailed = true;
+    });
+  }
+
+  private updateUserAndRemoveAdminRight(): void {
+    this.http.put<UserDto>('/api/users/manager/UpdateUserAndRemoveAdminRight', this.data).subscribe(_ => {
       this.dialogRef.close(this.data);
     }, error => {
       console.error(error);

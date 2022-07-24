@@ -12,8 +12,8 @@
       Please provide a email!
     </mat-error>
   </mat-form-field>
-  <mat-checkbox *ngIf="adminRightVisible">
-    Admin
+  <mat-checkbox *ngIf="adminRight" [(ngModel)]="adminRightChecked" name="adminRightCheck">
+    Admin right
   </mat-checkbox>
   <mat-error *ngIf="submitFailed">
     Process failed!

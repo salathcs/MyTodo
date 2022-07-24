@@ -6,5 +6,7 @@ namespace MyTodo_Users.Interfaces
     {
         bool UpdateUserAndAddAdminRight(UserDto user);
         bool UpdateUserAndRemoveAdminRight(UserDto user);
+
+        bool DoesUserHaveAdminRight(long userId);
     }
 }

@@ -27,6 +27,20 @@ namespace MyTodo_Users.Controllers
         }
 
         [Authorize(ADMIN_POLICY)]
+        [HttpHead("DoesUserHaveAdminRight/{userId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public IActionResult DoesUserHaveAdminRight(long userId)
+        {
+            if (!managerService.DoesUserHaveAdminRight(userId))
+            {
+                return NotFound();
+            }
+
+            return NoContent();
+        }
+
+        [Authorize(ADMIN_POLICY)]
         [HttpPut("UpdateUserAndAddAdminRight")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
