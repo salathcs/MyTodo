@@ -14,10 +14,10 @@ namespace MyTodo_Todos.Services
         private readonly IUserIdentityHelper userIdentityHelper;
         private readonly IMapper mapper;
 
-        public CrudService(IMyLogger logger, ICrudRepository todosRepository, IUserIdentityHelper userIdentityHelper, IMapper mapper)
+        public CrudService(IMyLogger logger, ICrudRepository crudRepository, IUserIdentityHelper userIdentityHelper, IMapper mapper)
         {
             this.logger = logger;
-            this.crudRepository = todosRepository;
+            this.crudRepository = crudRepository;
             this.userIdentityHelper = userIdentityHelper;
             this.mapper = mapper;
         }
