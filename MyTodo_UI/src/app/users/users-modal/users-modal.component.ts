@@ -26,7 +26,7 @@ export class UsersModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.http.get<any>('/api/users/manager/HasAdminRight').subscribe(_ => {
+    this.http.head<any>('/api/users/manager/HasAdminRight').subscribe(_ => {
       this.adminRightVisible = true;
     }, _ => {
       this.adminRightVisible = false;
