@@ -16,5 +16,22 @@ namespace MyTodo_Todos.Services
         {
             return managerRepository.GetByUserId(userId);
         }
+
+        public IEnumerable<TodoDto> GetByExpiration(int expirationMinutes)
+        {
+            return managerRepository.GetByExpiration(expirationMinutes);
+        }
+
+        public void UpdateEmailSentOn(IEnumerable<long> todoIds)
+        {
+            var todos = managerRepository.GetTodosByIds(todoIds);
+
+            foreach (var todo in todos)
+            {
+                todo.EmailSent = true;
+            }
+
+            managerRepository.CallSaveChanges();
+        }
     }
 }

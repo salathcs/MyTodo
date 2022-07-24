@@ -20,7 +20,6 @@ namespace MyTodo_Todos.Controllers
             this.authorizationService = authorizationService;
         }
 
-        // GET api/<TodosController>/5
         [HttpGet("GetByUserId/{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoDto>))]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -41,6 +40,26 @@ namespace MyTodo_Todos.Controllers
             }
 
             return Ok(todos);
+        }
+
+        [Authorize(ADMIN_POLICY)]
+        [HttpGet("GetByExpiration/{expirationMinutes}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoDto>))]
+        public IActionResult GetByExpiration(int expirationMinutes)
+        {
+            var todos = managerService.GetByExpiration(expirationMinutes);
+
+            return Ok(todos);
+        }
+
+        [Authorize(ADMIN_POLICY)]
+        [HttpPut("UpdateEmailSentOn")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult UpdateEmailSentOn([FromBody] IEnumerable<long> todoIds)
+        {
+            managerService.UpdateEmailSentOn(todoIds);
+
+            return NoContent();
         }
     }
 }
