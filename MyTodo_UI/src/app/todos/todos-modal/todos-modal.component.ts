@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { TodoDto } from '../../models/todo-dto';
 
 @Component({
@@ -28,8 +29,25 @@ export class TodosModalComponent {
       this.updateTodo();
     }
     else {
-      this.createTodo();
+      this.createTodoSelector();
     }
+  }
+
+  private createTodoSelector(): void {
+    this.http.head<any>('/api/users/manager/HasAdminRight').subscribe(_ => {
+      this.createTodoFor();
+    }, _ => {
+      this.createTodo();
+    });
+  }
+
+  private createTodoFor(): void {
+    this.http.post<TodoDto>(`/api/todos/manager/CreateTodoFor/${this.data.userId}`, this.data).subscribe(result => {
+      this.dialogRef.close(result);
+    }, error => {
+      console.error(error);
+      this.submitFailed = true;
+    });
   }
 
   private createTodo(): void {

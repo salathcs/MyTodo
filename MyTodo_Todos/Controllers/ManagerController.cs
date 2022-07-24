@@ -20,7 +20,6 @@ namespace MyTodo_Todos.Controllers
             this.authorizationService = authorizationService;
         }
 
-        // GET api/<TodosController>/5
         [HttpGet("GetByUserId/{userId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoDto>))]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
@@ -41,6 +40,36 @@ namespace MyTodo_Todos.Controllers
             }
 
             return Ok(todos);
+        }
+
+        [Authorize(ADMIN_POLICY)]
+        [HttpPost("CreateTodoFor/{userId}")]
+        [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(TodoDto))]
+        public IActionResult Post(long userId, [FromBody] TodoDto todoDto)
+        {
+            managerService.CreateTodoFor(userId, todoDto);
+
+            return CreatedAtAction(nameof(CrudController.Get), "Crud", new { id = todoDto.Id }, todoDto);
+        }
+
+        [Authorize(ADMIN_POLICY)]
+        [HttpGet("GetByExpiration/{expirationMinutes}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<TodoWithEmailDto>))]
+        public IActionResult GetByExpiration(int expirationMinutes)
+        {
+            var todos = managerService.GetByExpiration(expirationMinutes);
+
+            return Ok(todos);
+        }
+
+        [Authorize(ADMIN_POLICY)]
+        [HttpPut("UpdateEmailSentOn")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        public IActionResult UpdateEmailSentOn([FromBody] IEnumerable<long> todoIds)
+        {
+            managerService.UpdateEmailSentOn(todoIds);
+
+            return NoContent();
         }
     }
 }

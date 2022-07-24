@@ -12,9 +12,9 @@ namespace MyTodo_Users.Services
         private readonly IUserIdentityHelper userIdentityHelper;
         private readonly IMapper mapper;
 
-        public CrudService(ICrudRepository usersRepository, IUserIdentityHelper userIdentityHelper, IMapper mapper)
+        public CrudService(ICrudRepository crudRepository, IUserIdentityHelper userIdentityHelper, IMapper mapper)
         {
-            this.crudRepository = usersRepository;
+            this.crudRepository = crudRepository;
             this.userIdentityHelper = userIdentityHelper;
             this.mapper = mapper;
         }

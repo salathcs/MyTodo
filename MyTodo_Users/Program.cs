@@ -29,6 +29,8 @@ builder.Services.AddMyAutoMapper();
 // Api logic DI
 builder.Services.AddScoped<ICrudService, CrudService>();
 builder.Services.AddScoped<ICrudRepository, CrudRepository>();
+builder.Services.AddScoped<IManagerService, ManagerService>();
+builder.Services.AddScoped<IManagerRepository, ManagerRepository>();
 
 var app = builder.Build();
 

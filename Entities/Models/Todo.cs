@@ -17,6 +17,9 @@ namespace Entities.Models
         [Column("expiration")]
         public DateTime? Expiration { get; set; }
 
+        [Column("emailSent")]
+        public bool? EmailSent { get; set; }
+
 
         [ForeignKey(nameof(User))]
         [Column("userId")]

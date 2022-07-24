@@ -4,6 +4,7 @@ using Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(MyTodoContext))]
-    partial class MyTodoContextModelSnapshot : ModelSnapshot
+    [Migration("20220724120924_Todo_EmailSent")]
+    partial class Todo_EmailSent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,12 +58,6 @@ namespace Entities.Migrations
                             Id = 1L,
                             Password = "admin",
                             UserName = "admin"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Password = "r1eH#emE295&",
-                            UserName = "emailWorker"
                         });
                 });
 
@@ -111,10 +107,10 @@ namespace Entities.Migrations
                         new
                         {
                             Id = 1L,
-                            Created = new DateTime(2022, 7, 24, 13, 34, 50, 122, DateTimeKind.Utc).AddTicks(2709),
+                            Created = new DateTime(2022, 7, 24, 12, 9, 23, 518, DateTimeKind.Utc).AddTicks(3285),
                             CreatedBy = "System",
                             PermissionName = "AdminPermission",
-                            Updated = new DateTime(2022, 7, 24, 13, 34, 50, 122, DateTimeKind.Utc).AddTicks(2709),
+                            Updated = new DateTime(2022, 7, 24, 12, 9, 23, 518, DateTimeKind.Utc).AddTicks(3286),
                             UpdatedBy = "System"
                         });
                 });
@@ -233,23 +229,12 @@ namespace Entities.Migrations
                         new
                         {
                             Id = 1L,
-                            Created = new DateTime(2022, 7, 24, 13, 34, 50, 122, DateTimeKind.Utc).AddTicks(2229),
+                            Created = new DateTime(2022, 7, 24, 12, 9, 23, 518, DateTimeKind.Utc).AddTicks(2883),
                             CreatedBy = "System",
                             Email = "MyAdmin@tmp.com",
                             IdentityId = 1L,
                             Name = "MyAdmin",
-                            Updated = new DateTime(2022, 7, 24, 13, 34, 50, 122, DateTimeKind.Utc).AddTicks(2232),
-                            UpdatedBy = "System"
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            Created = new DateTime(2022, 7, 24, 13, 34, 50, 122, DateTimeKind.Utc).AddTicks(2234),
-                            CreatedBy = "System",
-                            Email = "MyAdmin@tmp.com",
-                            IdentityId = 2L,
-                            Name = "EmailWorker",
-                            Updated = new DateTime(2022, 7, 24, 13, 34, 50, 122, DateTimeKind.Utc).AddTicks(2235),
+                            Updated = new DateTime(2022, 7, 24, 12, 9, 23, 518, DateTimeKind.Utc).AddTicks(2885),
                             UpdatedBy = "System"
                         });
                 });
@@ -285,12 +270,6 @@ namespace Entities.Migrations
                             Id = 1L,
                             PermissionId = 1L,
                             UserId = 1L
-                        },
-                        new
-                        {
-                            Id = 2L,
-                            PermissionId = 1L,
-                            UserId = 2L
                         });
                 });
 

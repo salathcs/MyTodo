@@ -16,6 +16,8 @@ export class UsersToolBarComponent implements OnInit, OnDestroy {
 
   public selectedUser: UserDto | null = null;
 
+  public adminRight: boolean = false;
+
   @Input() onSelectedRowChanged!: Observable<UserDto | null>;
   private onSelectedRowChangedSubscription!: Subscription;
 
@@ -27,6 +29,13 @@ export class UsersToolBarComponent implements OnInit, OnDestroy {
     private router: Router) { }
 
   ngOnInit(): void {
+    //authenticated user is admin?
+    this.http.head<any>('/api/users/manager/HasAdminRight').subscribe(_ => {
+      this.adminRight = true;
+    }, _ => {
+      this.adminRight = false;
+    });
+
     if (this.onSelectedRowChanged !== undefined) {
       this.onSelectedRowChangedSubscription = this.onSelectedRowChanged.subscribe(userDto => this.selectedUser = userDto);
     }

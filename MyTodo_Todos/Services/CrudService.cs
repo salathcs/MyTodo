@@ -2,19 +2,22 @@
 using DataTransfer.DataTransferObjects;
 using Entities.Models;
 using MyAuth_lib.Interfaces;
+using MyLogger.Interfaces;
 using MyTodo_Todos.Interfaces;
 
 namespace MyTodo_Todos.Services
 {
     public class CrudService : ICrudService
     {
+        private readonly IMyLogger logger;
         private readonly ICrudRepository crudRepository;
         private readonly IUserIdentityHelper userIdentityHelper;
         private readonly IMapper mapper;
 
-        public CrudService(ICrudRepository todosRepository, IUserIdentityHelper userIdentityHelper, IMapper mapper)
+        public CrudService(IMyLogger logger, ICrudRepository crudRepository, IUserIdentityHelper userIdentityHelper, IMapper mapper)
         {
-            this.crudRepository = todosRepository;
+            this.logger = logger;
+            this.crudRepository = crudRepository;
             this.userIdentityHelper = userIdentityHelper;
             this.mapper = mapper;
         }
@@ -37,6 +40,8 @@ namespace MyTodo_Todos.Services
             todo.UserId = userIdentityHelper.GetUserId();  //UserId from context
             crudRepository.Create(todo);
 
+            logger.Info($"Todo with id: {todo.Id} created by user with id: {todo.UserId}!");
+
             todoDto.Id = todo.Id;       //result
         }
 
@@ -53,12 +58,16 @@ namespace MyTodo_Todos.Services
             userIdentityHelper.TryFillExtendedEntityFields(todo);
             crudRepository.Update(todo);
 
+            logger.Info($"Todo with id: {todo.Id} updated by user with id: {userIdentityHelper.GetUserId()}!");
+
             return true;
         }
 
         public bool Delete(long id)
         {
             var removed = crudRepository.Delete(id);
+
+            logger.Info($"Todo with id: {id} removed by user with id: {userIdentityHelper.GetUserId()}!");
 
             return removed != null;
         }

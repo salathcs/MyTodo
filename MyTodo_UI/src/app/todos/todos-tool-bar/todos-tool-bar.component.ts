@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { TodoDto } from '../../models/todo-dto';
 import { TodosModalComponent } from '../todos-modal/todos-modal.component';
@@ -11,6 +12,8 @@ import { TodosModalComponent } from '../todos-modal/todos-modal.component';
   styleUrls: ['./todos-tool-bar.component.css']
 })
 export class TodosToolBarComponent implements OnInit, OnDestroy {
+  private userId?: string = undefined;
+
   public title = "Todos grid";
 
   public selectedTodo: TodoDto | null = null;
@@ -22,9 +25,16 @@ export class TodosToolBarComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
+    this.route.params
+      .subscribe(params => {
+        this.userId = params["userId"];
+      }
+    );
+
     if (this.onSelectedRowChanged !== undefined) {
       this.onSelectedRowChangedSubscription = this.onSelectedRowChanged.subscribe(todoDto => this.selectedTodo = todoDto);
     }
@@ -37,7 +47,7 @@ export class TodosToolBarComponent implements OnInit, OnDestroy {
   public openCreateDialog(): void {
     const dialogRef = this.dialog.open(TodosModalComponent, {
       width: '450px',
-      data: { id: 0, title: "", description: "", expiration: null, userId: 0 }
+      data: { id: 0, title: "", description: "", expiration: null, userId: this.userId }
     });
 
     dialogRef.afterClosed().subscribe(this.afterClosedGridUpdate);
