@@ -20,9 +20,7 @@ namespace Entities
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // For migrations
-#if DEBUG
-            optionsBuilder.UseSqlServer("Server=CSABA-GAMING\\SQLEXPRESS;Database=MyTodo;Trusted_Connection=True");
-#endif
+            //optionsBuilder.UseSqlServer("Server=CSABA-GAMING\\SQLEXPRESS;Database=MyTodo;Trusted_Connection=True");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
