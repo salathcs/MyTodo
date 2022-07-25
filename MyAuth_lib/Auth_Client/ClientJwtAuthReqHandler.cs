@@ -87,8 +87,12 @@ namespace MyAuth_lib.Auth_Client
             //auth header
             if (httpContext.Request.Headers.TryGetValue("Authorization", out var authHeader))
             {
-                token = authHeader.ToString().Split(' ')[1];
-                return true;
+                var splitted = authHeader.ToString().Split(' ');
+                if (splitted.Length > 1)
+                {
+                    token = splitted[1];
+                    return true;
+                }
             }
 
             //auth cookie
