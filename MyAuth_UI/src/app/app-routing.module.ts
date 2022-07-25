@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'login-success', component: LoginSucessComponent },
   { path: 'registration', component: RegistrationComponent },
-  { path: 'registration-success', component: RegistrationSucessComponent },
+  { path: 'registration-success', component: RegistrationSucessComponent }, 
 ];
 
 @NgModule({

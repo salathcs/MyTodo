@@ -29,13 +29,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyLogger", "MyLogger\MyLogg
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTransfer", "DataTransfer\DataTransfer.csproj", "{6F3D7F68-C10C-411C-950D-E0CB704130F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyTodo_EmailWorker", "MyTodo_EmailWorker\MyTodo_EmailWorker.csproj", "{4C4BB7A4-EAD9-4428-91C3-7CF91D2A48C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyTodo_EmailWorker", "MyTodo_EmailWorker\MyTodo_EmailWorker.csproj", "{4C4BB7A4-EAD9-4428-91C3-7CF91D2A48C4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{68098BCE-0F92-472A-A8DF-0F35A425692B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{9D87A0D9-AFC7-4FC2-B0F2-8C321743940A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{9D87A0D9-AFC7-4FC2-B0F2-8C321743940A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{CE1FEB5A-C97F-42FB-A8D4-24878F7A5248}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{CE1FEB5A-C97F-42FB-A8D4-24878F7A5248}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
